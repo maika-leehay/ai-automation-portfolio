@@ -1,0 +1,43 @@
+name: Daily AI Video Outreach Pipeline
+
+on:
+  schedule:
+    # Runs at 09:00 UTC Monday through Friday
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  outreach:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install FFmpeg & ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg imagemagick
+
+      - name: Install Python Dependencies
+        run: |
+          pip install -r ai_outreach_pipeline/requirements.txt
+
+      - name: Write Google Credentials
+        run: |
+          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > credentials.json
+
+      - name: Run Pipeline
+        env:
+          REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
+          GMAIL_SENDER_EMAIL: ${{ secrets.GMAIL_SENDER_EMAIL }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GOOGLE_APPLICATION_CREDENTIALS: credentials.json
+          GOOGLE_SHEET_NAME: ${{ secrets.GOOGLE_SHEET_NAME }}
+        run: |
+          python ai_outreach_pipeline/main.py

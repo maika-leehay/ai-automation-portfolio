@@ -1,0 +1,8 @@
+.vercel
+.vscode
+__pycache__/
+*.pyc
+.env
+credentials.json
+temp_raw_*.mp4
+preview_*.mp4

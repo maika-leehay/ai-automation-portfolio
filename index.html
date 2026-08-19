@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mekaoui Abdelmounaim | Enterprise AI Automation Architect & Consultant</title>
+  <meta name="description"
+    content="Scale your business operations with autonomous AI agents, enterprise RAG pipelines, and intelligent workflow automation built by Mekaoui Abdelmounaim.">
+  <meta name="keywords"
+    content="AI Automation, AI Consultant, Autonomous Agents, LLM Workflows, n8n, Make, Enterprise RAG, Mekaoui Abdelmounaim, B2B Automation">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- OpenGraph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mekaoui Abdelmounaim | AI Automation Architect">
+  <meta property="og:description"
+    content="Engineering Autonomous AI Agents & Custom Workflows That 10x Business Efficiency.">
+  <meta property="og:image" content="assets/mekaoui-profile.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mekaoui Abdelmounaim | AI Automation Architect">
+  <meta name="twitter:description"
+    content="Engineering Autonomous AI Agents & Custom Workflows That 10x Business Efficiency.">
+  <meta name="twitter:image" content="assets/mekaoui-profile.png">
+
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Neural Canvas Background -->
+  <canvas id="neuralCanvas"></canvas>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Space Sci-Fi Tactical HUD Header -->
+  <header class="site-header scifi-hud-header" id="siteHeader">
+
+    <!-- Top Telemetry, Lang & Theme Bar -->
+    <div class="hud-telemetry-bar">
+      <div class="container hud-telemetry-container">
+
+        <div class="telemetry-left">
+          <span class="hud-coord-tag"><span class="hud-glitch-text">SEC-07</span> // NEXUS-CORE</span>
+          <div class="hud-radar-wrap" title="Orbital Sensor Sweep">
+            <div class="hud-radar-screen">
+              <div class="hud-radar-sweep"></div>
+              <div class="hud-radar-blip blip-1"></div>
+              <div class="hud-radar-blip blip-2"></div>
+              <div class="hud-radar-blip blip-3"></div>
+            </div>
+            <span class="radar-label" data-i18n="telemetry.radar">RADAR: ACTIVE (3 TARGETS)</span>
+          </div>
+        </div>
+
+        <div class="telemetry-center">
+          <div class="warp-core-status">
+            <span class="warp-label" data-i18n="telemetry.warp_label">WARP CORE:</span>
+            <div class="warp-bar-track">
+              <div class="warp-bar-fill"></div>
+            </div>
+            <span class="warp-pct" data-i18n="telemetry.warp_pct">99.8% STABLE</span>
+          </div>
+        </div>
+
+        <div class="telemetry-right">
+          <!-- White / Dark Theme Switcher -->
+          <button class="hud-theme-toggle" id="hudThemeToggle" title="Toggle Light/Dark Theme"
+            aria-label="Toggle Theme">
+            <span class="theme-icon" id="themeIcon">☀️</span>
+            <span class="theme-label" id="themeLabel">LIGHT</span>
+          </button>
+
+          <!-- Fleet Status Pill -->
+          <div class="fleet-status-pill">
+            <span class="scifi-pulse-orb"></span>
+            <span class="status-callsign">SYSTEM READY // Q3-Q4</span>
+          </div>
+
+          <!-- Audio SFX Toggle -->
+          <button class="hud-sound-toggle" id="hudSoundToggle" title="Toggle Sci-Fi Audio FX">
+            <span class="sfx-icon">🔊</span>
+            <span class="sfx-label" id="sfxLabel">SFX: ON</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Main Command Navigation Module -->
+    <div class="hud-main-deck">
+      <div class="container nav-container hud-nav-container">
+
+        <!-- Animated Scanner Beam -->
+        <div class="hud-laser-scanner"></div>
+
+        <!-- Flying Space Drone / Orbiter that tracks menu items -->
+        <div class="hud-space-drone" id="hudSpaceDrone">
+          <div class="drone-body">
+            <div class="drone-eye"></div>
+            <div class="drone-thruster"></div>
+          </div>
+        </div>
+
+        <!-- Brand Identity: Fleet Command Insignia -->
+        <a href="#hero" class="brand-logo scifi-brand" id="brandLogoBtn">
+          <div class="brand-hologram-emblem">
+            <div class="hologram-rings">
+              <div class="ring ring-outer"></div>
+              <div class="ring ring-inner"></div>
+            </div>
+            <div class="hologram-core">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="12 2 2 22 12 17 22 22 12 2" />
+              </svg>
+            </div>
+          </div>
+          <div class="brand-text-block">
+            <div class="brand-title">MEKAOUI<span class="scifi-neon-cyan">.AI</span></div>
+            <div class="brand-subtitle">ENTERPRISE AI ARCHITECT</div>
+          </div>
+        </a>
+
+        <!-- Sci-Fi Tactical Menu -->
+        <nav class="hud-nav-wrapper">
+          <ul class="nav-menu scifi-nav-menu" id="scifiNavMenu">
+            <li class="scifi-nav-item">
+              <a href="#services" class="scifi-nav-link" data-index="0">
+                <span class="scifi-bracket left">⌜</span>
+                <span class="nav-num">01</span>
+                <span class="nav-text" data-i18n="nav.capabilities">CAPABILITIES</span>
+                <span class="scifi-bracket right">⌟</span>
+                <span class="scifi-target-reticle">+</span>
+              </a>
+            </li>
+            <li class="scifi-nav-item">
+              <a href="#simulator" class="scifi-nav-link" data-index="1">
+                <span class="scifi-bracket left">⌜</span>
+                <span class="nav-num">02</span>
+                <span class="nav-text" data-i18n="nav.simulator">SIMULATOR-VR</span>
+                <span class="scifi-bracket right">⌟</span>
+                <span class="scifi-target-reticle">+</span>
+              </a>
+            </li>
+            <li class="scifi-nav-item">
+              <a href="#roi-calculator" class="scifi-nav-link" data-index="2">
+                <span class="scifi-bracket left">⌜</span>
+                <span class="nav-num">03</span>
+                <span class="nav-text" data-i18n="nav.roi">ROI-MATRIX</span>
+                <span class="scifi-bracket right">⌟</span>
+                <span class="scifi-target-reticle">+</span>
+              </a>
+            </li>
+            <li class="scifi-nav-item">
+              <a href="#case-studies" class="scifi-nav-link" data-index="3">
+                <span class="scifi-bracket left">⌜</span>
+                <span class="nav-num">04</span>
+                <span class="nav-text" data-i18n="nav.flight_logs">FLIGHT-LOGS</span>
+                <span class="scifi-bracket right">⌟</span>
+                <span class="scifi-target-reticle">+</span>
+              </a>
+            </li>
+            <li class="scifi-nav-item">
+              <a href="#process" class="scifi-nav-link" data-index="4">
+                <span class="scifi-bracket left">⌜</span>
+                <span class="nav-num">05</span>
+                <span class="nav-text" data-i18n="nav.protocols">PROTOCOLS</span>
+                <span class="scifi-bracket right">⌟</span>
+                <span class="scifi-target-reticle">+</span>
+              </a>
+            </li>
+            <li class="scifi-nav-item">
+              <a href="#faq" class="scifi-nav-link" data-index="5">
+                <span class="scifi-bracket left">⌜</span>
+                <span class="nav-num">06</span>
+                <span class="nav-text" data-i18n="nav.intel_faq">INTEL-FAQ</span>
+                <span class="scifi-bracket right">⌟</span>
+                <span class="scifi-target-reticle">+</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Sci-Fi Hyperdrive CTA -->
+        <div class="nav-actions scifi-actions">
+          <button class="scifi-warp-btn" id="openBookingModalBtn">
+            <div class="btn-hazard-stripes"></div>
+            <div class="btn-glare-effect"></div>
+            <div class="btn-corner-blip top-left"></div>
+            <div class="btn-corner-blip bottom-right"></div>
+            <div class="btn-content">
+              <span class="warp-btn-icon">⚡</span>
+              <span class="warp-btn-text" data-i18n="nav.engage_warp">ENGAGE WARP // AUDIT</span>
+            </div>
+          </button>
+
+          <!-- Mobile Sci-Fi Cockpit Hamburger -->
+          <button class="scifi-mobile-btn" id="scifiMobileBtn" aria-label="Toggle Tactical Menu">
+            <div class="hamburger-line top"></div>
+            <div class="hamburger-line mid"></div>
+            <div class="hamburger-line bot"></div>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+
+        <!-- Left: Pitch & Hero Copy -->
+        <div class="hero-content">
+          <div class="hero-badge-wrap">
+            <span class="hero-badge-icon">⚡</span>
+            <span class="hero-badge-text" data-i18n="hero.badge">B2B AI Automation & Autonomous Systems</span>
+          </div>
+
+          <h1 class="hero-title" data-i18n="hero.title">
+            Transform Manual Chaos Into <span class="gradient-text-cyan">Autonomous Growth</span>.
+          </h1>
+
+          <p class="hero-desc" data-i18n="hero.desc">
+            Hi, I’m <strong>Mekaoui Abdelmounaim</strong>. I design and deploy custom enterprise AI agents, intelligent
+            multi-agent swarms, and end-to-end automated pipelines that eliminate repetitive work, slash operational
+            costs, and help businesses scale exponentially.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#roi-calculator" class="btn btn-primary btn-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2" />
+                <line x1="8" y1="6" x2="16" y2="6" />
+                <line x1="16" y1="14" x2="16" y2="14.01" />
+                <line x1="12" y1="14" x2="12" y2="14.01" />
+                <line x1="8" y1="14" x2="8" y2="14.01" />
+                <line x1="16" y1="18" x2="16" y2="18.01" />
+                <line x1="12" y1="18" x2="12" y2="18.01" />
+                <line x1="8" y1="18" x2="8" y2="18.01" />
+              </svg>
+              <span data-i18n="hero.calc_roi">Calculate Your AI ROI</span>
+            </a>
+            <button class="btn btn-secondary btn-lg" id="heroBookingBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              <span data-i18n="hero.claim_audit">Claim Free 15-Min Audit</span>
+            </button>
+          </div>
+
+          <div class="hero-guarantee">
+            <div class="guarantee-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span data-i18n="hero.guarantee_custom">100% Custom Architecture</span>
+            </div>
+            <div class="guarantee-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span data-i18n="hero.guarantee_zero">Zero-Downtime Deployment</span>
+            </div>
+            <div class="guarantee-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span data-i18n="hero.guarantee_roi">Measurable ROI in 30 Days</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Profile Card Showcase -->
+        <div class="hero-visual">
+          <div class="profile-card-wrapper">
+
+            <!-- Floating Badge Top Right -->
+            <div class="floating-badge badge-top-right">
+              <div class="floating-badge-icon cyan">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+              </div>
+              <div class="floating-badge-content">
+                <span data-i18n="hero.badge_ops">Autonomous Ops</span>
+                <strong data-i18n="hero.badge_eff">10x Efficiency</strong>
+              </div>
+            </div>
+
+            <!-- Floating Badge Bottom Left -->
+            <div class="floating-badge badge-bottom-left">
+              <div class="floating-badge-icon purple">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              </div>
+              <div class="floating-badge-content">
+                <span data-i18n="hero.badge_sec">Security & Guardrails</span>
+                <strong data-i18n="hero.badge_grade">Enterprise Grade</strong>
+              </div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-image-container">
+                <img src="assets/mekaoui-profile.png" alt="Mekaoui Abdelmounaim - AI Automation Architect"
+                  class="profile-img">
+                <div class="profile-overlay-badge">
+                  <div class="profile-overlay-info">
+                    <h4>Mekaoui Abdelmounaim</h4>
+                    <p data-i18n="hero.profile_role">Lead AI Automation Architect</p>
+                  </div>
+                  <div class="verified-badge" title="Verified AI Architect">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="profile-stats-grid">
+                <div class="profile-stat-box">
+                  <span class="stat-val">$2.8M+</span>
+                  <span class="stat-lbl" data-i18n="hero.stat_saved">OpEx Saved</span>
+                </div>
+                <div class="profile-stat-box">
+                  <span class="stat-val">150K+</span>
+                  <span class="stat-lbl" data-i18n="hero.stat_hours">Hours Reclaimed</span>
+                </div>
+                <div class="profile-stat-box">
+                  <span class="stat-val">99.4%</span>
+                  <span class="stat-lbl" data-i18n="hero.stat_acc">Accuracy Rate</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI Ticker Bar -->
+  <section class="trust-bar">
+    <div class="container">
+      <div class="kpi-ticker-grid">
+        <div class="kpi-ticker-item">
+          <div class="kpi-num">85% - 94%</div>
+          <div class="kpi-label" data-i18n="kpi.reduction">Average Reduction in Manual Workflows</div>
+        </div>
+        <div class="kpi-ticker-item">
+          <div class="kpi-num">&lt; 45 Days</div>
+          <div class="kpi-label" data-i18n="kpi.payback">Average Full Payback Time</div>
+        </div>
+        <div class="kpi-ticker-item">
+          <div class="kpi-num">35+</div>
+          <div class="kpi-label" data-i18n="kpi.deployed">Custom Enterprise AI Systems Deployed</div>
+        </div>
+        <div class="kpi-ticker-item">
+          <div class="kpi-num">24/7/365</div>
+          <div class="kpi-label" data-i18n="kpi.autonomous">Continuous Autonomous Execution</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Ecosystem Marquee -->
+  <section class="tech-marquee-section">
+    <div class="marquee-track">
+      <div class="tech-badge"><span>⚡</span> OpenAI GPT-4o</div>
+      <div class="tech-badge"><span>🧠</span> Anthropic Claude 3.5</div>
+      <div class="tech-badge"><span>🔗</span> LangChain & LangGraph</div>
+      <div class="tech-badge"><span>⚙️</span> n8n Enterprise Workflows</div>
+      <div class="tech-badge"><span>🤖</span> CrewAI Multi-Agent Swarms</div>
+      <div class="tech-badge"><span>🔄</span> Make.com Integrations</div>
+      <div class="tech-badge"><span>📦</span> Pinecone Vector DB</div>
+      <div class="tech-badge"><span>🐍</span> Python & FastAPI</div>
+      <div class="tech-badge"><span>☁️</span> Supabase & PostgreSQL</div>
+      <div class="tech-badge"><span>💼</span> HubSpot & Salesforce CRM</div>
+      <div class="tech-badge"><span>🎙️</span> ElevenLabs Voice AI</div>
+      <div class="tech-badge"><span>📑</span> LlamaIndex RAG Pipelines</div>
+      <!-- Duplicate for infinite smooth scroll -->
+      <div class="tech-badge"><span>⚡</span> OpenAI GPT-4o</div>
+      <div class="tech-badge"><span>🧠</span> Anthropic Claude 3.5</div>
+      <div class="tech-badge"><span>🔗</span> LangChain & LangGraph</div>
+      <div class="tech-badge"><span>⚙️</span> n8n Enterprise Workflows</div>
+      <div class="tech-badge"><span>🤖</span> CrewAI Multi-Agent Swarms</div>
+      <div class="tech-badge"><span>🔄</span> Make.com Integrations</div>
+      <div class="tech-badge"><span>📦</span> Pinecone Vector DB</div>
+      <div class="tech-badge"><span>🐍</span> Python & FastAPI</div>
+      <div class="tech-badge"><span>☁️</span> Supabase & PostgreSQL</div>
+      <div class="tech-badge"><span>💼</span> HubSpot & Salesforce CRM</div>
+      <div class="tech-badge"><span>🎙️</span> ElevenLabs Voice AI</div>
+      <div class="tech-badge"><span>📑</span> LlamaIndex RAG Pipelines</div>
+    </div>
+  </section>
+
+  <!-- Live Interactive AI Solution Simulator -->
+  <section class="section" id="simulator">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="sim.tag">Interactive Sandbox</span>
+        <h2 class="section-title" data-i18n="sim.title">Experience Autonomous AI Execution in Real Time</h2>
+        <p class="section-desc" data-i18n="sim.desc">Select a core business workflow below and trigger a simulated live
+          execution to see how autonomous agent nodes coordinate, validate, and execute complex business logic.</p>
+      </div>
+
+      <div class="simulator-card">
+        <div class="simulator-header">
+          <div class="sim-selector-wrap">
+            <span class="sim-label" data-i18n="sim.select_label">SELECT PIPELINE:</span>
+            <select class="sim-select" id="pipelineSelector">
+              <option value="lead-gen" data-i18n="sim.opt1">Autonomous Inbound SDR & Lead Qualification</option>
+              <option value="invoice-rag" data-i18n="sim.opt2">Multi-Modal Invoice & Contract Extraction</option>
+              <option value="support-agent" data-i18n="sim.opt3">24/7 Intelligent Customer Support Swarm</option>
+              <option value="market-intel" data-i18n="sim.opt4">Autonomous Market & Competitor Intelligence</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary" id="runSimulationBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            <span data-i18n="sim.run_btn">Run Live Simulation</span>
+          </button>
+        </div>
+
+        <!-- 4-Node Interactive Visual Flow -->
+        <div class="workflow-pipeline" id="workflowNodes">
+          <div class="pipeline-node" id="node-1">
+            <div class="node-step-indicator">
+              <span>STEP 01</span>
+            </div>
+            <div class="node-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+            </div>
+            <h4 class="node-title" id="node1-title">Inbound Trigger</h4>
+            <p class="node-subtext" id="node1-desc">Webhook captures new form lead from web</p>
+            <span class="node-status-badge">Standby</span>
+          </div>
+
+          <div class="pipeline-node" id="node-2">
+            <div class="node-step-indicator">
+              <span>STEP 02</span>
+            </div>
+            <div class="node-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                <line x1="12" y1="22.08" x2="12" y2="12" />
+              </svg>
+            </div>
+            <h4 class="node-title" id="node2-title">AI Reasoning Agent</h4>
+            <p class="node-subtext" id="node2-desc">Claude 3.5 evaluates ICP score & company data</p>
+            <span class="node-status-badge">Standby</span>
+          </div>
+
+          <div class="pipeline-node" id="node-3">
+            <div class="node-step-indicator">
+              <span>STEP 03</span>
+            </div>
+            <div class="node-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h4 class="node-title" id="node3-title">Validation & Guardrails</h4>
+            <p class="node-subtext" id="node3-desc">JSON schema verification & hallucination check</p>
+            <span class="node-status-badge">Standby</span>
+          </div>
+
+          <div class="pipeline-node" id="node-4">
+            <div class="node-step-indicator">
+              <span>STEP 04</span>
+            </div>
+            <div class="node-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <h4 class="node-title" id="node4-title">Multi-System Action</h4>
+            <p class="node-subtext" id="node4-desc">Syncs CRM, schedules demo & alerts Slack</p>
+            <span class="node-status-badge">Standby</span>
+          </div>
+        </div>
+
+        <!-- Terminal Console Stream -->
+        <div class="sim-console">
+          <div class="console-topbar">
+            <div class="console-dots">
+              <span class="console-dot dot-red"></span>
+              <span class="console-dot dot-yellow"></span>
+              <span class="console-dot dot-green"></span>
+            </div>
+            <div class="console-title">autonomous-engine.log — Live Event Stream</div>
+            <div style="font-size: 0.72rem; color: var(--accent-emerald);">● READY</div>
+          </div>
+          <div class="console-body" id="consoleOutput">
+            <div class="log-entry">
+              <span class="log-time">[SYSTEM]</span>
+              <span class="log-tag">INFO</span>
+              <span class="log-text">AI Automation Engine initialized. Click "Run Live Simulation" to test pipeline
+                execution.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive AI ROI Calculator -->
+  <section class="section" id="roi-calculator">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="roi.tag">ROI Quantification</span>
+        <h2 class="section-title" data-i18n="roi.title">Calculate Your Business Automation Payoff</h2>
+        <p class="section-desc" data-i18n="roi.desc">Estimate the exact annual dollars and thousands of employee hours
+          your company recovers by replacing manual processes with Mekaoui's custom AI pipelines.</p>
+      </div>
+
+      <div class="roi-calculator-wrap">
+
+        <!-- Controls Column -->
+        <div class="roi-inputs-col">
+          <div class="roi-slider-group">
+            <div class="slider-label-row">
+              <span class="slider-label-title" data-i18n="roi.team_label">Team members doing manual tasks</span>
+              <span class="slider-value-badge" id="teamSizeDisplay">8 Employees</span>
+            </div>
+            <input type="range" min="1" max="50" value="8" class="custom-range" id="teamSizeRange">
+          </div>
+
+          <div class="roi-slider-group">
+            <div class="slider-label-row">
+              <span class="slider-label-title" data-i18n="roi.hourly_label">Average employee cost ($/hour)</span>
+              <span class="slider-value-badge" id="hourlyRateDisplay">$45 / hr</span>
+            </div>
+            <input type="range" min="20" max="150" step="5" value="45" class="custom-range" id="hourlyRateRange">
+          </div>
+
+          <div class="roi-slider-group">
+            <div class="slider-label-row">
+              <span class="slider-label-title" data-i18n="roi.hours_label">Hours spent on repetitive work (per week /
+                person)</span>
+              <span class="slider-value-badge" id="hoursPerWeekDisplay">15 Hours / wk</span>
+            </div>
+            <input type="range" min="5" max="35" value="15" class="custom-range" id="hoursPerWeekRange">
+          </div>
+
+          <div
+            style="font-size: 0.85rem; color: var(--text-muted); background: rgba(255,255,255,0.02); padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            💡 <em data-i18n="roi.note">Calculation assumes conservative 78% automation efficiency with zero quality
+              degradation and automated QA validation.</em>
+          </div>
+        </div>
+
+        <!-- Results Display Column -->
+        <div class="roi-results-col">
+          <div class="roi-hero-metric">
+            <div class="roi-hero-label" data-i18n="roi.savings_label">Estimated Annual OpEx Savings</div>
+            <div class="roi-hero-amount" id="annualSavingsVal">$218,800</div>
+          </div>
+
+          <div class="roi-breakdown-grid">
+            <div class="roi-mini-card">
+              <div class="roi-mini-val" id="hoursReclaimedVal">4,860 hrs</div>
+              <div class="roi-mini-lbl" data-i18n="roi.hours_reclaimed_label">Annual Hours Reclaimed</div>
+            </div>
+            <div class="roi-mini-card">
+              <div class="roi-mini-val" id="paybackVal">&lt; 32 Days</div>
+              <div class="roi-mini-lbl" data-i18n="roi.payback_label">Estimated Payback Period</div>
+            </div>
+            <div class="roi-mini-card">
+              <div class="roi-mini-val" id="roiMultiplierVal">5.8x</div>
+              <div class="roi-mini-lbl" data-i18n="roi.multiplier_label">12-Month Net ROI</div>
+            </div>
+            <div class="roi-mini-card">
+              <div class="roi-mini-val" id="weeklyCapacityVal">+93 hrs/wk</div>
+              <div class="roi-mini-lbl" data-i18n="roi.capacity_label">Weekly Creative Bandwidth</div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="claimRoiBtn" style="width: 100%;">
+            <span data-i18n="roi.claim_btn">Capture These Savings — Request Custom Audit</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Services Grid (6 Pillars) -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="services.tag">Enterprise Capabilities</span>
+        <h2 class="section-title" data-i18n="services.title">Custom AI Automation Services</h2>
+        <p class="section-desc" data-i18n="services.desc">Tailor-made autonomous systems engineered to plug directly
+          into your existing business stack without disrupting ongoing operations.</p>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- Service 1: Autonomous Multi-Agent Swarms -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                <path d="M2 12h20" />
+              </svg>
+            </div>
+            <h3 class="service-title" data-i18n="services.s1_title">Autonomous AI Agents & Swarms</h3>
+            <p class="service-desc" data-i18n="services.s1_desc">Collaborative multi-agent ecosystems (using CrewAI &
+              LangGraph) that execute multi-step research, sales prospecting, data enrichment, and complex business
+              decisions without human intervention.</p>
+            <ul class="service-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s1_f1">Role-based autonomous agent teams</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s1_f2">Tool-calling with browser & API control</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s1_f3">Self-correcting execution loops</span></li>
+            </ul>
+          </div>
+          <div class="service-tech-tags">
+            <span class="tech-tag">LangGraph</span>
+            <span class="tech-tag">CrewAI</span>
+            <span class="tech-tag">Claude 3.5</span>
+            <span class="tech-tag">Python</span>
+          </div>
+        </div>
+
+        <!-- Service 2: Enterprise RAG & Knowledge Bases -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+            </div>
+            <h3 class="service-title" data-i18n="services.s2_title">Custom Enterprise RAG & Knowledge Bases</h3>
+            <p class="service-desc" data-i18n="services.s2_desc">Connect your company's Notion, Google Drive, Jira, and
+              internal databases to private, hallucination-resistant LLMs for instant semantic search, policy analysis,
+              and employee intelligence.</p>
+            <ul class="service-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s2_f1">Hybrid semantic & keyword vector search</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s2_f2">Document chunking & metadata filtering</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s2_f3">Role-based security & zero data leakage</span></li>
+            </ul>
+          </div>
+          <div class="service-tech-tags">
+            <span class="tech-tag">Pinecone</span>
+            <span class="tech-tag">LlamaIndex</span>
+            <span class="tech-tag">OpenAI</span>
+            <span class="tech-tag">PostgreSQL</span>
+          </div>
+        </div>
+
+        <!-- Service 3: End-to-End Workflow Automation -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
+            <h3 class="service-title" data-i18n="services.s3_title">Workflow Automation & CRM Sync</h3>
+            <p class="service-desc" data-i18n="services.s3_desc">Seamlessly orchestrate your entire SaaS ecosystem.
+              Connect Salesforce, HubSpot, Stripe, QuickBooks, and Slack via bulletproof self-hosted n8n and Make
+              pipelines with zero data dropped.</p>
+            <ul class="service-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s3_f1">Custom webhook & REST API integrations</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s3_f2">Automated error recovery & retry logic</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s3_f3">End-to-end audit logging & alerting</span></li>
+            </ul>
+          </div>
+          <div class="service-tech-tags">
+            <span class="tech-tag">n8n</span>
+            <span class="tech-tag">Make</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Webhooks</span>
+          </div>
+        </div>
+
+        <!-- Service 4: AI Voice & 24/7 Customer Support -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+              </svg>
+            </div>
+            <h3 class="service-title" data-i18n="services.s4_title">24/7 Voice & Omnichannel Support AI</h3>
+            <p class="service-desc" data-i18n="services.s4_desc">Ultra-responsive, human-grade voice and chat agents
+              that resolve customer inquiries, book appointments, and handle tier-1 triage across Web, WhatsApp, Phone,
+              and Email in seconds.</p>
+            <ul class="service-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s4_f1">Sub-second latency voice responses</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s4_f2">Live CRM ticket updates & escalations</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s4_f3">Strict compliance & brand tone matching</span></li>
+            </ul>
+          </div>
+          <div class="service-tech-tags">
+            <span class="tech-tag">ElevenLabs</span>
+            <span class="tech-tag">Vapi</span>
+            <span class="tech-tag">Twilio</span>
+            <span class="tech-tag">Zendesk</span>
+          </div>
+        </div>
+
+        <!-- Service 5: Lead Gen & Inbound Enrichment -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <h3 class="service-title" data-i18n="services.s5_title">Automated Lead Gen & Deep Enrichment</h3>
+            <p class="service-desc" data-i18n="services.s5_desc">Scrape, enrich, score, and qualify inbound/outbound
+              prospects automatically. Synthesize LinkedIn data, company financials, and tech stack signals to feed your
+              sales reps ready-to-close accounts.</p>
+            <ul class="service-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s5_f1">Automated Apollo/Clay enrichment flows</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s5_f2">Hyper-personalized outbound generation</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s5_f3">Real-time intent signal alerts</span></li>
+            </ul>
+          </div>
+          <div class="service-tech-tags">
+            <span class="tech-tag">Clay</span>
+            <span class="tech-tag">Apollo</span>
+            <span class="tech-tag">HubSpot</span>
+            <span class="tech-tag">SmartLead</span>
+          </div>
+        </div>
+
+        <!-- Service 6: Document & Invoice Vision AI -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M9 9h6v6H9z" />
+                <path d="M3 9h2M3 15h2M19 9h2M19 15h2M9 3v2M15 3v2M9 19v2M15 19v2" />
+              </svg>
+            </div>
+            <h3 class="service-title" data-i18n="services.s6_title">Document, Contract & Invoice Vision AI</h3>
+            <p class="service-desc" data-i18n="services.s6_desc">Transform thousands of unstructured PDFs, receipts,
+              shipping manifests, and legal contracts into validated JSON schemas synced immediately with your
+              accounting and ERP engines.</p>
+            <ul class="service-features">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s6_f1">99.8% field extraction precision</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s6_f2">Multi-page table and line-item parsing</span></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg> <span data-i18n="services.s6_f3">Instant QuickBooks / NetSuite sync</span></li>
+            </ul>
+          </div>
+          <div class="service-tech-tags">
+            <span class="tech-tag">GPT-4o Vision</span>
+            <span class="tech-tag">Textract</span>
+            <span class="tech-tag">Pydantic</span>
+            <span class="tech-tag">SQL</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Case Studies -->
+  <section class="section" id="case-studies" style="background: rgba(13, 17, 28, 0.4);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="cases.tag">Proven Track Record</span>
+        <h2 class="section-title" data-i18n="cases.title">Measurable Business Transformations</h2>
+        <p class="section-desc" data-i18n="cases.desc">Here is how Mekaoui's custom AI architectures solved hard operational bottlenecks and
+          produced quantifiable financial ROI for high-growth businesses.</p>
+      </div>
+
+      <div class="case-studies-grid">
+
+        <!-- Case 1 -->
+        <div class="case-card">
+          <div>
+            <span class="case-industry-tag" data-i18n="cases.c1_tag">📦 Global Freight & Logistics</span>
+            <h3 class="case-title" data-i18n="cases.c1_title">Automated Carrier Invoice & Customs Pipeline</h3>
+            <p class="case-summary" data-i18n="cases.c1_summary">Eliminated 120+ weekly hours of manual invoice verification across 4 international
+              customs hubs with multimodal LLM validation.</p>
+
+            <div class="case-metrics-banner">
+              <div class="case-metric-item">
+                <strong>-89%</strong>
+                <span data-i18n="cases.c1_m1">Processing Time</span>
+              </div>
+              <div class="case-metric-item">
+                <strong>$340K</strong>
+                <span data-i18n="cases.c1_m2">Annual OpEx Saved</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="case-quote" data-i18n="cases.c1_quote">
+              "Mekaoui didn't just write scripts—he re-architected our data pipeline. Invoices that took 2 days are now
+              cleared in 40 seconds."
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; font-family: var(--font-mono);" data-i18n="cases.c1_author">—
+              VP of Global Operations</div>
+          </div>
+        </div>
+
+        <!-- Case 2 -->
+        <div class="case-card">
+          <div>
+            <span class="case-industry-tag" data-i18n="cases.c2_tag">💼 B2B SaaS Growth Agency</span>
+            <h3 class="case-title" data-i18n="cases.c2_title">Autonomous Inbound SDR & Pipeline Engine</h3>
+            <p class="case-summary" data-i18n="cases.c2_summary">Replaced slow manual inbound triage with an autonomous AI agent swarm that qualifies
+              prospects in 30 seconds and books meetings directly on Calendly.</p>
+
+            <div class="case-metrics-banner">
+              <div class="case-metric-item">
+                <strong>+240%</strong>
+                <span data-i18n="cases.c2_m1">Demos Booked</span>
+              </div>
+              <div class="case-metric-item">
+                <strong>18 sec</strong>
+                <span data-i18n="cases.c2_m2">Avg Response Time</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="case-quote" data-i18n="cases.c2_quote">
+              "Our speed-to-lead dropped from 3 hours to under 30 seconds. It literally tripled our sales team's closing
+              pipeline."
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; font-family: var(--font-mono);" data-i18n="cases.c2_author">—
+              Chief Commercial Officer</div>
+          </div>
+        </div>
+
+        <!-- Case 3 -->
+        <div class="case-card">
+          <div>
+            <span class="case-industry-tag" data-i18n="cases.c3_tag">⚖️ Legal & Real Estate Advisory</span>
+            <h3 class="case-title" data-i18n="cases.c3_title">Private RAG Engine for Multi-Page Contracts</h3>
+            <p class="case-summary" data-i18n="cases.c3_summary">Built a secure, hallucination-resistant knowledge base indexing 14,000+ commercial
+              lease agreements with instant clause risk scoring.</p>
+
+            <div class="case-metrics-banner">
+              <div class="case-metric-item">
+                <strong>99.6%</strong>
+                <span data-i18n="cases.c3_m1">Compliance Accuracy</span>
+              </div>
+              <div class="case-metric-item">
+                <strong>3,400 hrs</strong>
+                <span data-i18n="cases.c3_m2">Saved per Quarter</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="case-quote" data-i18n="cases.c3_quote">
+              "We perform deep contract due diligence in 3 minutes rather than 5 business days. The security guardrails
+              give our partners total peace of mind."
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; font-family: var(--font-mono);" data-i18n="cases.c3_author">—
+              Managing Partner</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-Step Methodology -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="process.tag">Seamless Engagement</span>
+        <h2 class="section-title" data-i18n="process.title">The 4-Step Enterprise Delivery Framework</h2>
+        <p class="section-desc" data-i18n="process.desc">From initial opportunity audit to production-hardened AI pipelines in as little as 14
+          business days.</p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-step-num">01</div>
+          <div class="process-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </div>
+          <h3 class="process-title" data-i18n="process.s1_title">1. Opportunity & Feasibility Audit</h3>
+          <p class="process-desc" data-i18n="process.s1_desc">We map your team’s manual bottlenecks, audit existing software APIs, and identify the
+            highest ROI automation opportunities with calculated payback projections.</p>
+        </div>
+
+        <div class="process-card">
+          <div class="process-step-num">02</div>
+          <div class="process-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+          <h3 class="process-title" data-i18n="process.s2_title">2. Architecture & Rapid Prototype</h3>
+          <p class="process-desc" data-i18n="process.s2_desc">I design the custom prompt workflows, tool integrations, and test a working
+            interactive sandbox prototype for your team to test in 5-7 business days.</p>
+        </div>
+
+        <div class="process-card">
+          <div class="process-step-num">03</div>
+          <div class="process-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h3 class="process-title" data-i18n="process.s3_title">3. Production Hardening & Guardrails</h3>
+          <p class="process-desc" data-i18n="process.s3_desc">We implement robust error handling, schema validations, data privacy filters, rate
+            limiting, and automated alerts so the system runs with 99.9% uptime.</p>
+        </div>
+
+        <div class="process-card">
+          <div class="process-step-num">04</div>
+          <div class="process-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+          <h3 class="process-title" data-i18n="process.s4_title">4. Handover, Training & Scale</h3>
+          <p class="process-desc" data-i18n="process.s4_desc">Full documentation, staff video walkthroughs, dedicated maintenance support, and
+            ongoing model upgrades to ensure long-term operational dominance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Matrix -->
+  <section class="section" id="comparison">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="comp.tag">Why Work With Mekaoui</span>
+        <h2 class="section-title" data-i18n="comp.title">The Dedicated AI Architect Advantage</h2>
+        <p class="section-desc" data-i18n="comp.desc">Why fast-growing companies choose a specialized AI Architect over bloated agencies or
+          junior freelancers.</p>
+      </div>
+
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th data-i18n="comp.th_factor">Evaluation Factor</th>
+              <th class="highlight-col">Mekaoui Abdelmounaim</th>
+              <th data-i18n="comp.th_agencies">Generic Dev Agencies</th>
+              <th data-i18n="comp.th_freelancers">Freelancers on Upwork</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature-title-cell" data-i18n="comp.f1_title">Focus on Real Business ROI</td>
+              <td class="highlight-col"><span class="check-yes"><svg width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg> <span data-i18n="comp.f1_mekaoui">Guaranteed & Quantified</span></span></td>
+              <td><span class="check-no" data-i18n="comp.f1_agencies">❌ Billable hours focused</span></td>
+              <td><span class="check-no" data-i18n="comp.f1_free">❌ Feature focused only</span></td>
+            </tr>
+            <tr>
+              <td class="feature-title-cell" data-i18n="comp.f2_title">Direct Access to Senior Architect</td>
+              <td class="highlight-col"><span class="check-yes"><svg width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg> <span data-i18n="comp.f2_mekaoui">1-on-1 Direct Partner</span></span></td>
+              <td><span class="check-no" data-i18n="comp.f2_agencies">❌ Hidden behind PM layers</span></td>
+              <td><span class="check-yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg> <span data-i18n="comp.f2_free">Direct (Unpredictable)</span></span></td>
+            </tr>
+            <tr>
+              <td class="feature-title-cell" data-i18n="comp.f3_title">Production Guardrails & Anti-Hallucination</td>
+              <td class="highlight-col"><span class="check-yes"><svg width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg> <span data-i18n="comp.f3_mekaoui">Multi-layer Verification</span></span></td>
+              <td><span class="check-no" data-i18n="comp.f3_agencies">❌ Often basic prototypes</span></td>
+              <td><span class="check-no" data-i18n="comp.f3_free">❌ Rare / No test suites</span></td>
+            </tr>
+            <tr>
+              <td class="feature-title-cell" data-i18n="comp.f4_title">Speed to Production MVP</td>
+              <td class="highlight-col"><span class="check-yes"><svg width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg> <span data-i18n="comp.f4_mekaoui">7 - 14 Business Days</span></span></td>
+              <td><span class="check-no" data-i18n="comp.f4_agencies">❌ 3 - 6 Months</span></td>
+              <td><span class="check-no" data-i18n="comp.f4_free">❌ Variable / Inconsistent</span></td>
+            </tr>
+            <tr>
+              <td class="feature-title-cell" data-i18n="comp.f5_title">Full IP & Codebase Ownership</td>
+              <td class="highlight-col"><span class="check-yes"><svg width="16" height="16" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg> <span data-i18n="comp.f5_mekaoui">100% Client Owned</span></span></td>
+              <td><span class="check-no" data-i18n="comp.f5_agencies">❌ Proprietary Lock-in</span></td>
+              <td><span class="check-yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg> <span data-i18n="comp.f5_free">Client Owned</span></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="faq.tag">Frequently Asked Questions</span>
+        <h2 class="section-title" data-i18n="faq.title">Everything You Need to Know</h2>
+        <p class="section-desc" data-i18n="faq.desc">Clear answers to common questions about security, tech stacks, ROI, and delivery
+          timelines.</p>
+      </div>
+
+      <div class="faq-wrap">
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="faq.q1">How fast can we expect our first AI automation in production?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.a1">Most core automations (e.g., Inbound SDR agents, customer support bots, or document extraction pipelines)
+              are designed, prototyped, and deployed in staging within 7 to 10 business days. Full enterprise production
+              rollout with end-to-end security guardrails typically takes under 3 weeks.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="faq.q2">Is our proprietary business data and customer info secure?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.a2">Yes, absolutely. We use zero-retention enterprise API keys (Anthropic, OpenAI Enterprise, and private
+              self-hosted models) where your data is never used to train public LLMs. All credentials and keys are
+              stored in encrypted vaults (e.g., Supabase Vault / AWS KMS), and all workflows comply with SOC2 & GDPR
+              privacy best practices.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="faq.q3">Do we need to migrate away from our current software stack?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.a3">No. The entire philosophy of my AI automation architecture is seamless integration. We connect directly
+              into your current CRM (HubSpot/Salesforce), databases (Postgres/MySQL), communication channels
+              (Slack/Teams/Email), and ERPs through robust APIs without disrupting your existing operations.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="faq.q4">What happens if an AI agent encounters an edge case it can't solve?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.a4">Every autonomous pipeline is engineered with deterministic "Human-in-the-Loop" (HITL) fallback triggers.
+              If confidence falls below 95% or an unprecedented edge case occurs, the system automatically routes the
+              ticket/data to a designated team member via Slack or email with full context for quick one-click approval.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span data-i18n="faq.q5">What does the pricing and engagement model look like?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p data-i18n="faq.a5">We work on either a fixed-scope milestone model (ideal for turnkey AI builds like RAG engines or CRM
+              integrations) or a dedicated monthly AI Architect retainer (for continuous workflow optimization and new
+              agent deployments). Every project starts with a 100% free discovery audit to calculate your exact expected
+              ROI before you spend a dime.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- High-Converting On-Page Audit Request CTA -->
+  <section class="audit-cta-section" id="contact">
+    <div class="container">
+      <div class="cta-box-grid">
+
+        <div class="cta-info-col">
+          <span class="section-tag" data-i18n="audit.tag">Let's Build</span>
+          <h2 data-i18n="audit.title">Ready to 10x Your Team's Output With AI?</h2>
+          <p data-i18n="audit.desc">Book a direct 1-on-1 strategy call with <strong>Mekaoui Abdelmounaim</strong>. We’ll dissect your current
+            operational bottlenecks and construct a clear, actionable automation roadmap.</p>
+
+          <div class="audit-perks">
+            <div class="audit-perk-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span data-i18n="audit.p1">Detailed 15-Minute Operational AI Audit</span>
+            </div>
+            <div class="audit-perk-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span data-i18n="audit.p2">Custom ROI & Payback Timeline Estimate</span>
+            </div>
+            <div class="audit-perk-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span data-i18n="audit.p3">Zero High-Pressure Sales Tactics — Pure Engineering Strategy</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- On-Page Discovery Form -->
+        <div class="audit-form-card">
+          <h3 class="form-title" data-i18n="audit.form_title">Request Your AI Automation Blueprint</h3>
+          <p class="form-subtitle" data-i18n="audit.form_subtitle">Fill in the details below to schedule your strategy session.</p>
+
+          <form id="auditForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="clientName" data-i18n="audit.lbl_name">Your Name *</label>
+                <input type="text" id="clientName" class="form-input" placeholder="e.g. Sarah Jenkins" maxlength="80" autocomplete="name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="clientEmail" data-i18n="audit.lbl_email">Work Email *</label>
+                <input type="email" id="clientEmail" class="form-input" placeholder="sarah@company.com" maxlength="100" autocomplete="email" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="companyName" data-i18n="audit.lbl_company">Company Name</label>
+                <input type="text" id="companyName" class="form-input" placeholder="Company Inc." maxlength="100" autocomplete="organization">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="automationGoal" data-i18n="audit.lbl_goal">Primary Goal *</label>
+                <select id="automationGoal" class="form-select" required>
+                  <option value="lead-gen" data-i18n="audit.opt_leads">Automate Inbound Leads & Sales Outreach</option>
+                  <option value="rag" data-i18n="audit.opt_rag">Internal Enterprise Knowledge Base (RAG)</option>
+                  <option value="workflows" data-i18n="audit.opt_workflows">CRM / ERP / Workflow Syncing</option>
+                  <option value="support" data-i18n="audit.opt_support">24/7 AI Voice & Chat Customer Support</option>
+                  <option value="documents" data-i18n="audit.opt_docs">Document & Invoice Data Extraction</option>
+                  <option value="other" data-i18n="audit.opt_custom">Custom Autonomous AI Solution</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="projectDetails" data-i18n="audit.lbl_details">Current Bottleneck / Details</label>
+              <textarea id="projectDetails" class="form-textarea" rows="3" maxlength="1000"
+                placeholder="Briefly describe what repetitive tasks are currently slowing your team down..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              <span data-i18n="audit.btn_submit">Submit & Schedule Strategy Call →</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="brand-logo">
+            <div class="brand-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <div class="brand-name">MEKAOUI<span style="color: var(--accent-cyan)">.AI</span></div>
+          </a>
+          <p data-i18n="footer.desc">Engineering enterprise autonomous systems, multi-agent swarms, and high-ROI automated pipelines for
+            forward-thinking businesses.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer.h_nav">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#services" data-i18n="nav.capabilities">Services</a></li>
+            <li><a href="#simulator" data-i18n="nav.simulator">Live Sandbox</a></li>
+            <li><a href="#roi-calculator" data-i18n="nav.roi">ROI Calculator</a></li>
+            <li><a href="#case-studies" data-i18n="nav.flight_logs">Case Studies</a></li>
+            <li><a href="#process" data-i18n="nav.protocols">Methodology</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer.h_solutions">Core Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="#services" data-i18n="footer.s_swarms">Autonomous Agents</a></li>
+            <li><a href="#services" data-i18n="footer.s_rag">Enterprise RAG</a></li>
+            <li><a href="#services" data-i18n="footer.s_sync">n8n / Make Sync</a></li>
+            <li><a href="#services" data-i18n="footer.s_voice">Voice & Chat AI</a></li>
+            <li><a href="#services" data-i18n="footer.s_docs">Document Extraction</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 data-i18n="footer.h_contact">Direct Contact</h4>
+          <ul class="footer-links">
+            <li><span style="color: var(--text-muted)">AI Automation Architect:</span> <strong style="color: #fff">Mekaoui
+                Abdelmounaim</strong></li>
+            <li><span style="color: var(--text-muted)" data-i18n="footer.lbl_avail">Availability:</span> <span
+                style="color: var(--accent-emerald)" data-i18n="footer.val_avail">🟢 Open for Q3/Q4 Contracts</span></li>
+            <li><span style="color: var(--text-muted)" data-i18n="footer.lbl_loc">Location:</span> <span data-i18n="footer.val_loc">Global / Remote Enterprise</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div data-i18n="footer.copyright">© 2026 Mekaoui Abdelmounaim. All rights reserved. Enterprise NDA & Privacy Compliant.</div>
+        <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);" data-i18n="footer.built_with">
+          Built with Pure Performance & Zero Bloat
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Booking Modal -->
+  <div class="modal-backdrop" id="bookingModal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span class="section-tag" data-i18n="modal.tag">Direct Scheduling</span>
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: #fff; margin-top: 10px;" data-i18n="modal.title">Book a 15-Min
+          Strategy Session</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 6px;" data-i18n="modal.subtitle">Speak directly with <strong>Mekaoui
+            Abdelmounaim</strong> to evaluate your automation scope.</p>
+      </div>
+
+      <div
+        style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px; text-align: center; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 14px;">
+          <img src="assets/mekaoui-profile.png" alt="Mekaoui"
+            style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-cyan);">
+          <div style="text-align: left;">
+            <strong style="color: #fff; display: block; font-size: 0.95rem;">Mekaoui Abdelmounaim</strong>
+            <span style="font-size: 0.78rem; color: var(--accent-cyan); font-family: var(--font-mono);" data-i18n="modal.slots_avail">Available slots
+              today & this week</span>
+          </div>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 16px;" data-i18n="modal.pick_time">Pick a convenient time on the calendar for a
+          high-value video consultation.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;">
+          <button class="btn btn-secondary btn-sm cal-slot-btn" style="border-radius: var(--radius-sm);" data-i18n="modal.slot1">Tomorrow, 10:00
+            AM</button>
+          <button class="btn btn-secondary btn-sm cal-slot-btn" style="border-radius: var(--radius-sm);" data-i18n="modal.slot2">Tomorrow, 2:30
+            PM</button>
+          <button class="btn btn-secondary btn-sm cal-slot-btn" style="border-radius: var(--radius-sm);" data-i18n="modal.slot3">Wednesday,
+            11:00 AM</button>
+        </div>
+
+        <button class="btn btn-primary" id="confirmSlotBtn" style="width: 100%;">
+          <span data-i18n="modal.btn_confirm">Confirm Selected Slot & Reserve Calendar</span>
+        </button>
+      </div>
+
+      <div style="text-align: center; font-size: 0.78rem; color: var(--text-muted);" data-i18n="modal.disclaimer">
+        🔒 100% Free Strategy Session • No Commitment • Signed NDA Available on Request
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating AI Concierge Chatbot Widget -->
+  <div class="ai-concierge-toggle" id="aiToggle">
+    <div class="ai-avatar-badge">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path
+          d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM4.93 10.93a2 2 0 0 1 2.83 0l1.41 1.41a2 2 0 0 1-2.83 2.83L4.93 13.76a2 2 0 0 1 0-2.83zM19.07 10.93a2 2 0 0 1 0 2.83l-1.41 1.41a2 2 0 0 1-2.83-2.83l1.41-1.41a2 2 0 0 1 2.83 0zM12 18a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
+      </svg>
+    </div>
+    <div class="ai-toggle-text">
+      <strong data-i18n="concierge.title">Ask Mekaoui's AI</strong>
+      <span data-i18n="concierge.status">● Online & Instant</span>
+    </div>
+  </div>
+
+  <!-- Floating AI Chat Window -->
+  <div class="ai-chat-window" id="aiChatWindow">
+    <div class="chat-header">
+      <div class="chat-header-user">
+        <div class="ai-avatar-badge" style="width: 32px; height: 32px; font-size: 0.9rem;">🤖</div>
+        <div>
+          <h4 data-i18n="concierge.agent_name">Mekaoui AI Assistant</h4>
+          <p><span class="pulse-dot" style="width: 6px; height: 6px;"></span> <span data-i18n="concierge.ready">Ready to assist</span></p>
+        </div>
+      </div>
+      <button id="closeChatBtn" style="color: var(--text-muted); font-size: 1.2rem; padding: 4px;">&times;</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot" data-i18n="concierge.welcome">
+        Hi! I'm Mekaoui Abdelmounaim's AI Concierge. What kind of workflow or bottleneck is your business looking to
+        automate today?
+      </div>
+    </div>
+
+    <div class="chat-quick-actions">
+      <button class="quick-pill" data-query="How does Mekaoui calculate project ROI?" data-i18n="concierge.pill_roi">ROI Calculation</button>
+      <button class="quick-pill" data-query="What tools and tech stack do you use?" data-i18n="concierge.pill_tech">Tech Stack</button>
+      <button class="quick-pill" data-query="Can you build an Autonomous SDR agent?" data-i18n="concierge.pill_sdr">Autonomous SDR</button>
+      <button class="quick-pill" data-query="How to book a discovery call?" data-i18n="concierge.pill_book">Book Call</button>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Type your automation question..." maxlength="300" autocomplete="off">
+      <button id="sendChatBtn" class="chat-send-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13" />
+          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-notification" id="toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+    <span id="toastMsg">Action completed successfully!</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
