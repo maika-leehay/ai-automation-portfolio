@@ -161,9 +161,18 @@
               </a>
             </li>
             <li class="scifi-nav-item">
-              <a href="#roi-calculator" class="scifi-nav-link" data-index="2">
+              <a href="#video-showcase" class="scifi-nav-link" data-index="2">
                 <span class="scifi-bracket left">⌜</span>
                 <span class="nav-num">03</span>
+                <span class="nav-text" data-i18n="nav.video_showcase">3D VIDEO ENGINE</span>
+                <span class="scifi-bracket right">⌟</span>
+                <span class="scifi-target-reticle">+</span>
+              </a>
+            </li>
+            <li class="scifi-nav-item">
+              <a href="#roi-calculator" class="scifi-nav-link" data-index="3">
+                <span class="scifi-bracket left">⌜</span>
+                <span class="nav-num">04</span>
                 <span class="nav-text" data-i18n="nav.roi">ROI-MATRIX</span>
                 <span class="scifi-bracket right">⌟</span>
                 <span class="scifi-target-reticle">+</span>
@@ -542,6 +551,153 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive AI 3D Video Generation & Outreach Engine Section -->
+  <section class="section" id="video-showcase">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag" data-i18n="video.tag">Generative AI Video & Outreach Pipeline</span>
+        <h2 class="section-title" data-i18n="video.title">Cinematic 3D Property Walkthrough Engine</h2>
+        <p class="section-desc" data-i18n="video.desc">
+          See how our automated AI pipeline transforms raw 2D property photos into 5-second 4K photorealistic 3D camera-dolly previews with branded lower-thirds, ambient audio mixing, and automated outreach dispatch.
+        </p>
+      </div>
+
+      <div class="video-showcase-grid">
+        <!-- Interactive 3D Video Demo Player -->
+        <div class="video-player-card">
+          <div class="video-hud-header">
+            <div class="video-telemetry-badge">
+              <span class="hud-pulse-dot"></span>
+              <span class="video-render-engine">REPLICATE // KLING v1.5 + MINIMAX 4K</span>
+            </div>
+            <div class="video-preset-selector">
+              <button class="preset-btn active" data-preset="terrace" id="presetTerraceBtn">Pool Terrace</button>
+              <button class="preset-btn" data-preset="penthouse" id="presetPenthouseBtn">Luxury Penthouse</button>
+              <button class="preset-btn" data-preset="villa" id="presetVillaBtn">Ocean Villa</button>
+            </div>
+          </div>
+
+          <div class="video-canvas-container" id="videoCanvasContainer">
+            <!-- Simulated High-FPS 3D Cinematic Render Window -->
+            <div class="cinematic-preview-layer" id="cinematicPreviewLayer">
+              <div class="dolly-scene" id="dollyScene">
+                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80" alt="3D Walkthrough View" class="cinematic-visual" id="cinematicImg">
+                <div class="cinematic-water-ripples"></div>
+                <div class="cinematic-sun-flare"></div>
+              </div>
+              <!-- Lower-Third Dynamic Badge Overlay -->
+              <div class="lower-third-badge" id="lowerThirdBadge">
+                <div class="badge-accent-bar"></div>
+                <div class="badge-info">
+                  <span class="badge-tag">AI 3D PREVIEW</span>
+                  <h4 class="badge-title" id="badgePropertyTitle">VILLA SERAPHINA</h4>
+                  <span class="badge-loc" id="badgePropertyLoc">Pool Terrace &bull; 4K Photorealistic Dolly</span>
+                </div>
+              </div>
+              <!-- Live Video HUD Overlay -->
+              <div class="video-overlay-hud">
+                <span class="hud-coord-item">CAM: DOLLY-FWD [Z+4.2m]</span>
+                <span class="hud-coord-item">RES: 3840x2160 @ 60FPS</span>
+                <span class="hud-coord-item">AUDIO: AMBIENT 48kHz</span>
+              </div>
+            </div>
+
+            <!-- Video Player Controls -->
+            <div class="video-controls-bar">
+              <button class="video-play-btn" id="toggleVideoPlayBtn" aria-label="Play / Pause Walkthrough">
+                <span class="play-icon" id="videoPlayIcon">▶</span>
+              </button>
+              <div class="video-timeline-wrap">
+                <div class="video-timeline-bar" id="videoTimelineBar"></div>
+              </div>
+              <span class="video-time-counter" id="videoTimeCounter">0:00 / 0:05</span>
+              <button class="video-hd-toggle" title="4K AI Upscaling Active">4K HDR</button>
+            </div>
+          </div>
+
+          <div class="video-pipeline-stream-box">
+            <div class="stream-step-item">
+              <span class="step-num">01</span>
+              <span class="step-name">2D Photo Ingestion</span>
+              <span class="step-status">100% Ready</span>
+            </div>
+            <div class="stream-step-item">
+              <span class="step-num">02</span>
+              <span class="step-name">Kling 3D Latent Depth</span>
+              <span class="step-status">5.0s Render</span>
+            </div>
+            <div class="stream-step-item">
+              <span class="step-num">03</span>
+              <span class="step-name">FFmpeg Lower-Third & Audio</span>
+              <span class="step-status">H.264 AAC</span>
+            </div>
+            <div class="stream-step-item">
+              <span class="step-num">04</span>
+              <span class="step-name">Google Drive & Gmail SMTP</span>
+              <span class="step-status">Instant Pitch</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Pipeline Architecture Card & Specs -->
+        <div class="pipeline-features-card">
+          <div class="feature-card-header">
+            <div class="feature-header-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="23 7 16 12 23 17 23 7" />
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+              </svg>
+            </div>
+            <div>
+              <h3>Autonomous Outbound Workflow</h3>
+              <p class="feature-header-sub">Zero Human Intervention &bull; 24/7 Automated Dispatch</p>
+            </div>
+          </div>
+
+          <div class="pipeline-spec-list">
+            <div class="pipeline-spec-item">
+              <div class="spec-icon-box">⚡</div>
+              <div>
+                <h4>Generative AI Engine</h4>
+                <p>Kling v1.5 / MiniMax via Replicate API produces camera dolly forwards with subtle architectural lines and water reflections.</p>
+              </div>
+            </div>
+
+            <div class="pipeline-spec-item">
+              <div class="spec-icon-box">🎬</div>
+              <div>
+                <h4>MoviePy & FFmpeg Compositing</h4>
+                <p>Automated motion graphics overlays the property title, crossfades typography, and blends spatial ambient sound.</p>
+              </div>
+            </div>
+
+            <div class="pipeline-spec-item">
+              <div class="spec-icon-box">☁️</div>
+              <div>
+                <h4>Google Drive & Sheets CRM</h4>
+                <p>Auto-uploads the finished MP4, provisions public viewer links, and appends rows to Google Sheets with 3-day follow-up alarms.</p>
+              </div>
+            </div>
+
+            <div class="pipeline-spec-item">
+              <div class="spec-icon-box">📧</div>
+              <div>
+                <h4>Hyper-Personalized Outreach</h4>
+                <p>Sends direct booking & social walkthrough pitches directly into real estate broker inboxes via Gmail SMTP.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pipeline-cta-box">
+            <a href="#roi-calculator" class="btn btn-primary btn-block">
+              <span>Calculate Automation Savings</span>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>

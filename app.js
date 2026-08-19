@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNeuralCanvas();
   initSciFiHudMenu();
   initWorkflowSimulator();
+  initVideoWalkthroughEngine();
   initRoiCalculator();
   initFaqAccordion();
   initBookingModal();
@@ -861,7 +862,129 @@ function initAiConcierge() {
 }
 
 /* ==========================================================================
-   10. Toast Notifications
+   10. AI 3D Video Walkthrough Interactive Engine
+   ========================================================================== */
+function initVideoWalkthroughEngine() {
+  const playBtn = document.getElementById('toggleVideoPlayBtn');
+  const playIcon = document.getElementById('videoPlayIcon');
+  const timelineBar = document.getElementById('videoTimelineBar');
+  const timeCounter = document.getElementById('videoTimeCounter');
+  const cinematicImg = document.getElementById('cinematicImg');
+  const badgeTitle = document.getElementById('badgePropertyTitle');
+  const badgeLoc = document.getElementById('badgePropertyLoc');
+
+  const presetTerrace = document.getElementById('presetTerraceBtn');
+  const presetPenthouse = document.getElementById('presetPenthouseBtn');
+  const presetVilla = document.getElementById('presetVillaBtn');
+
+  if (!playBtn || !cinematicImg) return;
+
+  const presets = {
+    terrace: {
+      title: 'VILLA SERAPHINA',
+      loc: 'Pool Terrace • 4K Photorealistic Dolly',
+      img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80'
+    },
+    penthouse: {
+      title: 'PENTHOUSE CELESTE',
+      loc: 'Panoramic Balcony • 4K Skyline View',
+      img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
+    },
+    villa: {
+      title: 'COASTAL PALAZZO',
+      loc: 'Oceanfront Lounge • 4K Sunset Motion',
+      img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80'
+    }
+  };
+
+  let isPlaying = false;
+  let animTimer = null;
+  let elapsed = 0;
+  const totalDuration = 5.0; // 5 seconds clip
+
+  function updatePreset(presetKey) {
+    [presetTerrace, presetPenthouse, presetVilla].forEach(btn => {
+      if (btn) btn.classList.remove('active');
+    });
+
+    const data = presets[presetKey] || presets.terrace;
+    if (badgeTitle) badgeTitle.textContent = data.title;
+    if (badgeLoc) badgeLoc.textContent = data.loc;
+    cinematicImg.src = data.img;
+
+    resetPlayback();
+  }
+
+  if (presetTerrace) {
+    presetTerrace.addEventListener('click', () => {
+      presetTerrace.classList.add('active');
+      updatePreset('terrace');
+    });
+  }
+  if (presetPenthouse) {
+    presetPenthouse.addEventListener('click', () => {
+      presetPenthouse.classList.add('active');
+      updatePreset('penthouse');
+    });
+  }
+  if (presetVilla) {
+    presetVilla.addEventListener('click', () => {
+      presetVilla.classList.add('active');
+      updatePreset('villa');
+    });
+  }
+
+  function resetPlayback() {
+    isPlaying = false;
+    clearInterval(animTimer);
+    elapsed = 0;
+    cinematicImg.classList.remove('playing');
+    if (playIcon) playIcon.textContent = '▶';
+    if (timelineBar) timelineBar.style.width = '0%';
+    if (timeCounter) timeCounter.textContent = '0:00 / 0:05';
+  }
+
+  function togglePlay() {
+    if (isPlaying) {
+      isPlaying = false;
+      clearInterval(animTimer);
+      cinematicImg.classList.remove('playing');
+      if (playIcon) playIcon.textContent = '▶';
+    } else {
+      isPlaying = true;
+      if (playIcon) playIcon.textContent = '⏸';
+      cinematicImg.classList.add('playing');
+
+      const intervalMs = 50;
+      animTimer = setInterval(() => {
+        elapsed += intervalMs / 1000;
+        if (elapsed >= totalDuration) {
+          elapsed = totalDuration;
+          clearInterval(animTimer);
+          isPlaying = false;
+          cinematicImg.classList.remove('playing');
+          if (playIcon) playIcon.textContent = '↺';
+        }
+
+        const pct = Math.min(100, (elapsed / totalDuration) * 100);
+        if (timelineBar) timelineBar.style.width = `${pct}%`;
+        const sec = Math.floor(elapsed);
+        const dec = Math.floor((elapsed % 1) * 10);
+        if (timeCounter) timeCounter.textContent = `0:0${sec}.${dec} / 0:05.0`;
+      }, intervalMs);
+    }
+  }
+
+  playBtn.addEventListener('click', () => {
+    if (elapsed >= totalDuration) {
+      resetPlayback();
+    }
+    togglePlay();
+  });
+}
+
+/* ==========================================================================
+   11. Toast Notifications
    ========================================================================== */
 function showToast(message) {
   const toast = document.getElementById('toast');
