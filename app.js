@@ -883,17 +883,17 @@ function initVideoWalkthroughEngine() {
     terrace: {
       title: 'VILLA SERAPHINA',
       loc: 'Pool Terrace • 4K Photorealistic Dolly',
-      img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80'
+      img: 'assets/walkthrough_terrace.jpg'
     },
     penthouse: {
       title: 'PENTHOUSE CELESTE',
       loc: 'Panoramic Balcony • 4K Skyline View',
-      img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80'
+      img: 'assets/walkthrough_penthouse.jpg'
     },
     villa: {
       title: 'COASTAL PALAZZO',
       loc: 'Oceanfront Lounge • 4K Sunset Motion',
-      img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80'
+      img: 'assets/walkthrough_villa.jpg'
     }
   };
 
