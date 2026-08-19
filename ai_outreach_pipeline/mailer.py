@@ -34,10 +34,15 @@ To demonstrate how dynamic 3D video walkthroughs can help showcase your properti
 {bullet_points}
 I produce full 20–30s social-ready walkthrough reels (with ambient audio, amenity callouts, and smooth camera motion) with a 24–48h turnaround.
 
-If you would like to test a full video for one of your featured properties, I'd be glad to prepare one for you.
+You can explore our interactive 3D video engine and full enterprise automation capabilities on our live portfolio:
+https://ai-automation-portfolio-seven.vercel.app/
+
+If you would like to test a full video for one of your featured properties or discuss a monthly video package (€250–€500/mo), I'd be glad to prepare one for you.
 
 Best regards,
 {sender_name}
+AI Automation & Media Architect
+Portfolio: https://ai-automation-portfolio-seven.vercel.app/
 """
 
     msg = MIMEMultipart()
