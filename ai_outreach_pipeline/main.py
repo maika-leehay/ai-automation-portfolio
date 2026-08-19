@@ -156,25 +156,16 @@ def run_pipeline(leads: list, dry_run: bool = False):
             print(f"[-] Error processing lead {lead['company']}: {e}")
 
 
-if __name__ == "__main__":
-    sample_leads = [
-        {
-            "id": "lead_001",
-            "company": "Azure Horizon Villas",
-            "property_name": "Villa Seraphina",
-            "scene_type": "pool terrace and infinity ocean view",
-            "photo_url": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
-            "email": "contact@azurehorizonvillas.com",
-        },
-        {
-            "id": "lead_002",
-            "company": "Emerald Crest Luxury Rentals",
-            "property_name": "Penthouse Celeste",
-            "scene_type": "modern panoramic skyline balcony",
-            "photo_url": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-            "email": "partnerships@emeraldcrest.com",
-        }
-    ]
+from scraper_service import fetch_fresh_leads
 
-    print("\nStarting AI Video Outreach Pipeline Execution...\n")
-    run_pipeline(sample_leads)
+if __name__ == "__main__":
+    print("\n" + "=" * 65)
+    print("🚀 Starting Daily Autonomous Outreach Engine (5 Fresh Leads/Day)...")
+    print("=" * 65)
+
+    # 1. Dynamically Scrape / Ingest Fresh Leads
+    daily_leads = fetch_fresh_leads(target_count=5, target_location="Marbella, Spain")
+    print(f"[*] Ingested {len(daily_leads)} uncontacted luxury real estate listings for today's run.\n")
+
+    # 2. Run Pipeline through Gemini Video Director, Replicate, Drive, Mailer, Sheets
+    run_pipeline(daily_leads)
