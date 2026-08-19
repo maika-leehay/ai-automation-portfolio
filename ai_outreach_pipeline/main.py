@@ -9,17 +9,20 @@ if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 
+from gemini_editor import analyze_property_with_gemini
+
 load_dotenv()
 
 
 def run_pipeline(leads: list, dry_run: bool = False):
     """
     Main orchestration loop:
-    1. Generates 3D AI video clip via Replicate.
-    2. Polishes clip with text banner & ambient sound.
-    3. Uploads polished clip to Google Drive with public viewer permissions.
-    4. Sends personalized outreach email via Gmail SMTP.
-    5. Logs activity and follow-up deadline to Google Sheets.
+    1. Gemini Multimodal Analysis: Analyzes scene, builds cinematic prompt & custom copy.
+    2. Generates 3D AI video clip via Replicate.
+    3. Polishes clip with Gemini text badge & ambient sound.
+    4. Uploads polished clip to Google Drive with public viewer permissions.
+    5. Sends hyper-personalized outreach email via Gmail SMTP.
+    6. Logs activity and follow-up deadline to Google Sheets.
     """
     sender_email = os.getenv("GMAIL_SENDER_EMAIL", "your_email@gmail.com")
     sender_password = os.getenv("GMAIL_APP_PASSWORD")
@@ -38,7 +41,7 @@ def run_pipeline(leads: list, dry_run: bool = False):
         print("=" * 65)
         print(" [DRY RUN / SIMULATION MODE ACTIVATED]")
         print(" Live API keys / credentials.json not configured in .env.")
-        print(" Demonstrating full workflow execution, pipeline flow & data output.")
+        print(" Demonstrating Gemini Video Director + Full Pipeline execution.")
         print("=" * 65)
 
     drive_service = None
@@ -50,30 +53,46 @@ def run_pipeline(leads: list, dry_run: bool = False):
         print(f"\n>> Processing lead: {lead['company']} ({lead['property_name']})...")
 
         try:
+            # 0. Gemini Video Director & Copy Analysis
+            print("  [1/6] 🤖 Gemini Director: Analyzing property photo & generating copy...")
+            gemini_plan = analyze_property_with_gemini(
+                property_name=lead["property_name"],
+                property_type=lead.get("scene_type", "pool terrace"),
+                image_url=lead.get("photo_url")
+            )
+            print(f"        -> Generated Hook: \"{gemini_plan['email_hook']}\"")
+            print(f"        -> Dynamic Badge: [{gemini_plan['badge_title']} | {gemini_plan['badge_subtitle']}]")
+
             # 1. Generate Raw AI Clip
             raw_mp4 = f"temp_raw_{lead['id']}.mp4"
-            print("  [1/5] Generating 5s 3D cinematic video clip...")
+            print("  [2/6] 🎬 Generating 5s 3D cinematic video clip...")
             if not is_dry_run:
                 from generator import generate_3d_clip
                 generate_3d_clip(lead["photo_url"], lead.get("scene_type", "pool terrace"), raw_mp4)
             else:
-                time.sleep(0.6)
-                print(f"        -> Prompt dispatched to Replicate (kling-ai/kling-v1.5) for {lead['photo_url']}")
+                time.sleep(0.5)
+                print(f"        -> Prompt dispatched: {gemini_plan['cinematic_prompt'][:65]}...")
                 print(f"        -> Rendered 5-second video downloaded to: {raw_mp4}")
 
             # 2. Post-Process Video
             final_mp4 = f"preview_{lead['id']}.mp4"
             ambient_audio = "assets/ambient_breeze.mp3"
-            print(f"  [2/5] Post-processing lower-third overlay '{lead['property_name'].upper()}' & ambient audio...")
+            print(f"  [3/6] 🎨 Post-processing Gemini lower-third overlay & ambient audio...")
             if not is_dry_run:
                 from editor import polish_clip
-                polish_clip(raw_mp4, lead["property_name"], ambient_audio, final_mp4)
+                polish_clip(
+                    raw_mp4,
+                    gemini_plan["badge_title"],
+                    ambient_audio,
+                    final_mp4,
+                    subtitle=gemini_plan["badge_subtitle"]
+                )
             else:
-                time.sleep(0.5)
+                time.sleep(0.4)
                 print(f"        -> Video rendered: {final_mp4} (30 fps, H.264 / AAC)")
 
             # 3. Upload to Google Drive
-            print("  [3/5] Uploading to Google Drive and setting public viewer link...")
+            print("  [4/6] ☁️ Uploading to Google Drive and setting public viewer link...")
             if not is_dry_run:
                 from drive_service import upload_to_drive
                 drive_link = upload_to_drive(
@@ -82,12 +101,12 @@ def run_pipeline(leads: list, dry_run: bool = False):
                     f"{lead['property_name']}_preview.mp4"
                 )
             else:
-                time.sleep(0.4)
+                time.sleep(0.3)
                 drive_link = f"https://drive.google.com/file/d/demo_{lead['id']}_xyz123/view?usp=sharing"
             print(f"        -> Public Drive Link: {drive_link}")
 
             # 4. Send Email
-            print(f"  [4/5] Sending personalized outreach email to {lead['email']}...")
+            print(f"  [5/6] ✉️ Sending personalized outreach email to {lead['email']}...")
             if not is_dry_run:
                 from mailer import send_outreach_email
                 send_outreach_email(
@@ -96,14 +115,16 @@ def run_pipeline(leads: list, dry_run: bool = False):
                     recipient_email=lead["email"],
                     company=lead["company"],
                     prop_name=lead["property_name"],
-                    drive_link=drive_link
+                    drive_link=drive_link,
+                    custom_hook=gemini_plan["email_hook"],
+                    selling_points=gemini_plan["selling_points"]
                 )
             else:
-                time.sleep(0.4)
-                print(f"        -> Email dispatched via SMTP with customized copy to {lead['email']}")
+                time.sleep(0.3)
+                print(f"        -> Email dispatched via SMTP with customized Gemini copy to {lead['email']}")
 
             # 5. Log to Google Sheet
-            print("  [5/5] Logging lead to Google Sheets tracking spreadsheet...")
+            print("  [6/6] 📊 Logging lead to Google Sheets tracking spreadsheet...")
             pitch_date = datetime.now().strftime("%Y-%m-%d")
             follow_up = (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d")
 
@@ -118,7 +139,7 @@ def run_pipeline(leads: list, dry_run: bool = False):
                     follow_up_due=follow_up
                 )
             else:
-                time.sleep(0.3)
+                time.sleep(0.2)
                 print(f"        -> Appended Row: [{lead['company']}, {lead['email']}, {lead['property_name']}, {drive_link}, {pitch_date}, {follow_up}, 'Pitched']")
 
             # Cleanup local temp files if they exist

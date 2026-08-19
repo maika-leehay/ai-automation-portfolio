@@ -4,7 +4,13 @@ except ImportError:
     from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, AudioFileClip
 
 
-def polish_clip(raw_video_path: str, property_name: str, ambient_audio_path: str, final_video_path: str) -> str:
+def polish_clip(
+    raw_video_path: str,
+    property_name: str,
+    ambient_audio_path: str,
+    final_video_path: str,
+    subtitle: str = None
+) -> str:
     """
     Overlays a text badge and mixes ambient audio into the clip.
 
@@ -12,15 +18,19 @@ def polish_clip(raw_video_path: str, property_name: str, ambient_audio_path: str
     :param property_name: Name of the property for lower-third overlay.
     :param ambient_audio_path: Optional path to ambient audio file (.mp3).
     :param final_video_path: Destination output path for the polished video.
+    :param subtitle: Optional feature highlight subtitle for the lower third.
     :return: final_video_path
     """
     clip = VideoFileClip(raw_video_path)
 
     # Create text banner overlay
+    badge_text = f"{property_name.upper()}"
+    if subtitle:
+        badge_text += f"\n{subtitle}"
     try:
         txt_clip = (
-            TextClip(f"{property_name.upper()}", fontsize=28, color="white", font="Helvetica-Bold")
-            .set_position(("center", clip.h - 80))
+            TextClip(badge_text, fontsize=24, color="white", font="Helvetica-Bold")
+            .set_position(("center", clip.h - 90))
             .set_duration(clip.duration)
             .crossfadein(0.5)
             .crossfadeout(0.5)
