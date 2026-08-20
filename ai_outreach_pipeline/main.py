@@ -101,12 +101,12 @@ def run_pipeline(leads: list, dry_run: bool = False):
 
                 # 3. Telegram Human-in-the-Loop Review
                 print(f"  [4/6] 📱 Telegram Review: Sending video preview to your Telegram bot...")
-                demo_link = f"https://ai-automation-portfolio-seven.vercel.app/#video-showcase"
+                video_to_send = final_mp4 if (os.path.exists(final_mp4) and os.path.getsize(final_mp4) > 1000) else None
                 telegram_bot.send_video_for_review(
                     lead=lead,
                     gemini_plan=gemini_plan,
-                    video_path=final_mp4 if os.path.exists(final_mp4) else None,
-                    drive_link=demo_link
+                    video_path=video_to_send,
+                    drive_link=f"https://ai-automation-portfolio-seven.vercel.app/#video-showcase" if not video_to_send else None
                 )
 
                 # Wait for user button click on Telegram
