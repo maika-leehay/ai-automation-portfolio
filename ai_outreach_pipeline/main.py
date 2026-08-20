@@ -4,13 +4,16 @@ import time
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-# Ensure safe UTF-8 terminal encoding on all systems (including Windows cp1252)
+# Ensure safe UTF-8 terminal encoding on all systems
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 
 from gemini_editor import analyze_property_with_gemini
+from generator import generate_3d_clip
+from editor import polish_clip
 from telegram_service import TelegramReviewBot
+from scraper_service import fetch_fresh_leads
 
 load_dotenv()
 
@@ -19,36 +22,30 @@ def run_pipeline(leads: list, dry_run: bool = False):
     """
     Main orchestration loop with Telegram Human-in-the-Loop Approval:
     1. Gemini Multimodal Analysis: Analyzes scene, builds cinematic prompt & custom copy.
-    2. Generates 3D AI video clip via Replicate.
-    3. Polishes clip with Gemini text badge & ambient sound.
-    4. Sends Video & Details to Telegram for User Approval [Approve / Regenerate / Skip].
+    2. Generates 5s 3D AI video clip (via Replicate Kling AI or local 3D dolly engine).
+    3. Polishes clip with dynamic lower-third badge & ambient audio.
+    4. Sends Video & Details directly to Telegram for User Approval [Approve / Regenerate / Skip].
     5. On Approval -> Uploads to Drive -> Sends Outreach Email -> Logs to Google Sheets.
     6. On Regenerate -> Gemini re-prompts with alternative angles and re-renders.
     """
-    sender_email = os.getenv("GMAIL_SENDER_EMAIL", "your_email@gmail.com")
+    sender_email = os.getenv("GMAIL_SENDER_EMAIL")
     sender_password = os.getenv("GMAIL_APP_PASSWORD")
-    replicate_token = os.getenv("REPLICATE_API_TOKEN")
     google_creds = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "credentials.json")
 
-    has_live_credentials = (
-        bool(replicate_token)
-        and os.path.exists(google_creds)
+    has_gmail = (
+        bool(sender_email)
+        and sender_email != "your_email@gmail.com"
         and bool(sender_password)
     )
-
-    is_dry_run = dry_run or not has_live_credentials
-
-    if is_dry_run:
-        print("=" * 65)
-        print(" [DRY RUN / SIMULATION MODE ACTIVATED]")
-        print(" Live API keys / credentials.json not configured in .env.")
-        print(" Demonstrating Gemini Video Director + Telegram HITL Approval.")
-        print("=" * 65)
+    has_drive = os.path.exists(google_creds)
 
     drive_service = None
-    if not is_dry_run:
-        from drive_service import get_drive_service
-        drive_service = get_drive_service()
+    if has_drive:
+        try:
+            from drive_service import get_drive_service
+            drive_service = get_drive_service()
+        except Exception as e:
+            print(f"[Drive Notice] Google Drive API init warning: {e}")
 
     telegram_bot = TelegramReviewBot()
 
@@ -60,9 +57,12 @@ def run_pipeline(leads: list, dry_run: bool = False):
 
         while not approved and attempts < max_attempts:
             attempts += 1
+            raw_mp4 = f"temp_raw_{lead['id']}.mp4"
+            final_mp4 = f"preview_{lead['id']}.mp4"
+
             try:
-                # 0. Gemini Video Director & Copy Analysis
-                print(f"  [1/6] 🤖 Gemini Director: Analyzing property photo & generating copy (Attempt {attempts})...")
+                # 1. Gemini Video Director & Copy Analysis
+                print(f"  [1/5] 🤖 Gemini Director: Analyzing property photo & generating copy (Attempt {attempts})...")
                 gemini_plan = analyze_property_with_gemini(
                     property_name=lead["property_name"],
                     property_type=lead.get("scene_type", "pool terrace"),
@@ -71,42 +71,29 @@ def run_pipeline(leads: list, dry_run: bool = False):
                 print(f"        -> Generated Hook: \"{gemini_plan['email_hook']}\"")
                 print(f"        -> Dynamic Badge: [{gemini_plan['badge_title']} | {gemini_plan['badge_subtitle']}]")
 
-                # 1. Generate Raw AI Clip
-                raw_mp4 = f"temp_raw_{lead['id']}.mp4"
-                print("  [2/6] 🎬 Generating 5s 3D cinematic video clip...")
-                if not is_dry_run:
-                    from generator import generate_3d_clip
-                    generate_3d_clip(lead["photo_url"], lead.get("scene_type", "pool terrace"), raw_mp4)
-                else:
-                    time.sleep(0.4)
-                    print(f"        -> Prompt dispatched: {gemini_plan['cinematic_prompt'][:65]}...")
-                    print(f"        -> Rendered 5-second video downloaded to: {raw_mp4}")
+                # 2. Generate Real AI Clip (Replicate or 3D Dolly Engine)
+                print("  [2/5] 🎬 Generating 5s 3D cinematic video clip...")
+                generate_3d_clip(lead["photo_url"], lead.get("scene_type", "pool terrace"), raw_mp4)
 
-                # 2. Post-Process Video
-                final_mp4 = f"preview_{lead['id']}.mp4"
+                # 3. Post-Process Video with Dynamic Badge Overlay
                 ambient_audio = "assets/ambient_breeze.mp3"
-                print(f"  [3/6] 🎨 Post-processing Gemini lower-third overlay & ambient audio...")
-                if not is_dry_run:
-                    from editor import polish_clip
-                    polish_clip(
-                        raw_mp4,
-                        gemini_plan["badge_title"],
-                        ambient_audio,
-                        final_mp4,
-                        subtitle=gemini_plan["badge_subtitle"]
-                    )
-                else:
-                    time.sleep(0.3)
-                    print(f"        -> Video rendered: {final_mp4} (30 fps, H.264 / AAC)")
+                print(f"  [3/5] 🎨 Post-processing lower-third overlay & ambient audio...")
+                polish_clip(
+                    raw_mp4,
+                    gemini_plan["badge_title"],
+                    ambient_audio,
+                    final_mp4,
+                    subtitle=gemini_plan["badge_subtitle"]
+                )
+                print(f"        -> Final video rendered: {final_mp4} ({os.path.getsize(final_mp4) if os.path.exists(final_mp4) else 0} bytes)")
 
-                # 3. Telegram Human-in-the-Loop Review
-                print(f"  [4/6] 📱 Telegram Review: Sending video preview to your Telegram bot...")
-                video_to_send = final_mp4 if (os.path.exists(final_mp4) and os.path.getsize(final_mp4) > 1000) else None
+                # 4. Telegram Human-in-the-Loop Review
+                print(f"  [4/5] 📱 Telegram Review: Sending video preview directly to your Telegram...")
                 telegram_bot.send_video_for_review(
                     lead=lead,
                     gemini_plan=gemini_plan,
-                    video_path=video_to_send,
-                    drive_link=f"https://ai-automation-portfolio-seven.vercel.app/#video-showcase" if not video_to_send else None
+                    video_path=final_mp4 if os.path.exists(final_mp4) else None,
+                    drive_link=None
                 )
 
                 # Wait for user button click on Telegram
@@ -116,55 +103,67 @@ def run_pipeline(leads: list, dry_run: bool = False):
                     approved = True
                     print("  [Telegram HITL] ✅ User APPROVED! Proceeding with Drive upload and outreach...")
 
-                    # 4. Upload to Google Drive
-                    print("  [5/6] ☁️ Uploading to Google Drive and setting public viewer link...")
-                    if not is_dry_run:
-                        from drive_service import upload_to_drive
-                        drive_link = upload_to_drive(
-                            drive_service,
-                            final_mp4,
-                            f"{lead['property_name']}_preview.mp4"
-                        )
-                    else:
-                        time.sleep(0.3)
-                        drive_link = f"https://drive.google.com/file/d/demo_{lead['id']}_xyz123/view?usp=sharing"
-                    print(f"        -> Public Drive Link: {drive_link}")
+                    # 5. Upload to Google Drive (if configured)
+                    drive_link = f"https://ai-automation-portfolio-seven.vercel.app/#video-showcase"
+                    if drive_service and os.path.exists(final_mp4):
+                        try:
+                            from drive_service import upload_to_drive
+                            drive_link = upload_to_drive(
+                                drive_service,
+                                final_mp4,
+                                f"{lead['property_name']}_preview.mp4"
+                            )
+                            print(f"        -> Public Drive Link: {drive_link}")
+                        except Exception as e:
+                            print(f"        -> [Drive warning: {e}] Using portfolio link.")
 
-                    # 5. Send Email
-                    print(f"  [6/6] ✉️ Sending personalized outreach email to {lead['email']}...")
-                    if not is_dry_run:
-                        from mailer import send_outreach_email
-                        send_outreach_email(
-                            sender_email=sender_email,
-                            sender_password=sender_password,
-                            recipient_email=lead["email"],
-                            company=lead["company"],
-                            prop_name=lead["property_name"],
-                            drive_link=drive_link,
-                            custom_hook=gemini_plan["email_hook"],
-                            selling_points=gemini_plan["selling_points"]
-                        )
+                    # 6. Send Email
+                    print(f"  [5/5] ✉️ Dispatching outreach email to {lead['email']}...")
+                    if has_gmail and not dry_run:
+                        try:
+                            from mailer import send_outreach_email
+                            send_outreach_email(
+                                sender_email=sender_email,
+                                sender_password=sender_password,
+                                recipient_email=lead["email"],
+                                company=lead["company"],
+                                prop_name=lead["property_name"],
+                                drive_link=drive_link,
+                                custom_hook=gemini_plan["email_hook"],
+                                selling_points=gemini_plan["selling_points"]
+                            )
+                            print(f"        -> Email successfully dispatched via Gmail SMTP to {lead['email']}!")
+                            telegram_bot.send_message(f"✉️ <b>Email Sent!</b> Outreach email delivered to <code>{lead['email']}</code>.")
+                        except Exception as e:
+                            print(f"        -> [Mailer Error] Failed to send email: {e}")
+                            telegram_bot.send_message(f"⚠️ <b>Email Failed:</b> {e}")
                     else:
-                        time.sleep(0.3)
-                        print(f"        -> Email dispatched via SMTP with customized Gemini copy to {lead['email']}")
+                        print(f"        -> [Notice] Gmail credentials not set. Simulated dispatch to {lead['email']}.")
+                        telegram_bot.send_message(
+                            f"ℹ️ <b>Approved!</b> Video generated successfully.\n"
+                            f"<i>(To send real emails to {lead['email']}, set GMAIL_SENDER_EMAIL & GMAIL_APP_PASSWORD in .env)</i>"
+                        )
 
-                    # 6. Log to Google Sheet
+                    # 7. Log to Google Sheet
                     pitch_date = datetime.now().strftime("%Y-%m-%d")
                     follow_up = (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d")
 
-                    if not is_dry_run:
-                        from sheets_service import log_lead_to_sheet
-                        log_lead_to_sheet(
-                            company=lead["company"],
-                            email=lead["email"],
-                            prop_name=lead["property_name"],
-                            drive_link=drive_link,
-                            date_pitched=pitch_date,
-                            follow_up_due=follow_up
-                        )
+                    if has_drive and not dry_run:
+                        try:
+                            from sheets_service import log_lead_to_sheet
+                            log_lead_to_sheet(
+                                company=lead["company"],
+                                email=lead["email"],
+                                prop_name=lead["property_name"],
+                                drive_link=drive_link,
+                                date_pitched=pitch_date,
+                                follow_up_due=follow_up
+                            )
+                            print(f"        -> Appended Row to Google Sheet: [{lead['company']}, {lead['email']}]")
+                        except Exception as e:
+                            print(f"        -> Sheets log warning: {e}")
                     else:
-                        time.sleep(0.2)
-                        print(f"        -> Appended Row: [{lead['company']}, {lead['email']}, {lead['property_name']}, {drive_link}, {pitch_date}, {follow_up}, 'Pitched']")
+                        print(f"        -> Appended Row (Local Log): [{lead['company']}, {lead['email']}, {lead['property_name']}, {pitch_date}, 'Pitched']")
 
                     print(f"[+] Successfully pitched and logged {lead['company']}.\n")
 
@@ -177,7 +176,12 @@ def run_pipeline(leads: list, dry_run: bool = False):
                     print(f"  [Telegram HITL] ❌ Lead {lead['company']} SKIPPED by user. Moving to next lead.\n")
                     break
 
-                # Cleanup local temp files if they exist
+            except Exception as e:
+                print(f"[-] Error processing lead {lead['company']}: {e}")
+                break
+
+            finally:
+                # Cleanup local temp video files
                 for temp_f in [raw_mp4, final_mp4]:
                     if os.path.exists(temp_f):
                         try:
@@ -185,12 +189,6 @@ def run_pipeline(leads: list, dry_run: bool = False):
                         except Exception:
                             pass
 
-            except Exception as e:
-                print(f"[-] Error processing lead {lead['company']}: {e}")
-                break
-
-
-from scraper_service import fetch_fresh_leads
 
 if __name__ == "__main__":
     print("\n" + "=" * 65)
@@ -203,3 +201,4 @@ if __name__ == "__main__":
 
     # 2. Run Pipeline through Gemini Video Director, Replicate, Drive, Mailer, Sheets
     run_pipeline(daily_leads)
+
