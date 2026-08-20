@@ -17,11 +17,17 @@ def generate_3d_clip(image_url: str, property_type: str, output_path: str) -> st
         "subtle water ripples, bright sunny daylight, stable architectural lines, 4k photorealistic"
     )
 
-    # Run the model (e.g., Kling v1.5 or MiniMax)
+    # Handle local file path vs remote URL
+    if os.path.exists(image_url):
+        image_input = open(image_url, "rb")
+    else:
+        image_input = image_url
+
+    # Run the video generation model
     output = replicate.run(
         "kling-ai/kling-v1.5",
         input={
-            "image": image_url,
+            "image": image_input,
             "prompt": prompt,
             "duration": 5,
             "aspect_ratio": "16:9",
