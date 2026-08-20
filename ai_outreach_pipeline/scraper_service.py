@@ -2,7 +2,6 @@ import os
 import re
 import json
 import requests
-from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,42 +17,26 @@ def scrape_listing_url(url: str) -> dict:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
         }
         res = requests.get(url, headers=headers, timeout=15)
-        soup = BeautifulSoup(res.text, "html.parser")
+        html = res.text
 
-        # Extract OpenGraph Meta Tags (Standard across Airbnb, Booking, Real Estate sites)
-        title = None
-        image = None
-        desc = None
+        # Extract OpenGraph Meta Tags
+        title_match = re.search(r'<meta\s+property=["\']og:title["\']\s+content=["\']([^"\']+)["\']', html, re.I) or \
+                      re.search(r'<meta\s+content=["\']([^"\']+)["\']\s+property=["\']og:title["\']', html, re.I)
+        img_match = re.search(r'<meta\s+property=["\']og:image["\']\s+content=["\']([^"\']+)["\']', html, re.I) or \
+                    re.search(r'<meta\s+content=["\']([^"\']+)["\']\s+property=["\']og:image["\']', html, re.I)
+        desc_match = re.search(r'<meta\s+property=["\']og:description["\']\s+content=["\']([^"\']+)["\']', html, re.I) or \
+                     re.search(r'<meta\s+content=["\']([^"\']+)["\']\s+property=["\']og:description["\']', html, re.I)
 
-        og_title = soup.find("meta", property="og:title")
-        if og_title and og_title.get("content"):
-            title = og_title["content"]
-
-        og_image = soup.find("meta", property="og:image")
-        if og_image and og_image.get("content"):
-            image = og_image["content"]
-
-        og_desc = soup.find("meta", property="og:description")
-        if og_desc and og_desc.get("content"):
-            desc = og_desc["content"]
-
-        if not title:
-            title = soup.title.string if soup.title else "Exclusive Luxury Listing"
-
-        # Fallback to first high-res img tag if og:image missing
-        if not image:
-            for img in soup.find_all("img"):
-                src = img.get("src", "")
-                if ("jpg" in src or "png" in src or "webp" in src) and ("logo" not in src and "icon" not in src):
-                    image = src
-                    break
+        title = title_match.group(1) if title_match else "Exclusive Luxury Estate"
+        image = img_match.group(1) if img_match else "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=85"
+        desc = desc_match.group(1) if desc_match else "luxury architecture estate"
 
         return {
             "id": f"scraped_{abs(hash(url)) % 100000}",
             "company": "Exclusive Host Properties",
             "property_name": title.split("|")[0].split("-")[0].strip()[:40],
-            "scene_type": desc[:50] if desc else "luxury villa estate",
-            "photo_url": image or "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=85",
+            "scene_type": desc[:50],
+            "photo_url": image,
             "email": "inquiries@luxuryestates-outreach.com"
         }
     except Exception as e:
