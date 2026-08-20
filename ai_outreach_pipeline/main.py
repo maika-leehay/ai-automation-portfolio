@@ -61,19 +61,27 @@ def run_pipeline(leads: list, dry_run: bool = False):
             final_mp4 = f"preview_{lead['id']}.mp4"
 
             try:
-                # 1. Gemini Video Director & Copy Analysis
-                print(f"  [1/5] 🤖 Gemini Director: Analyzing property photo & generating copy (Attempt {attempts})...")
+                # 1. Gemini Vision Multimodal Inspection & Copy Director
+                print(f"  [1/5] 🤖 Gemini Vision Director: Inspecting host listing photo ({lead['company']})...")
                 gemini_plan = analyze_property_with_gemini(
                     property_name=lead["property_name"],
                     property_type=lead.get("scene_type", "pool terrace"),
                     image_url=lead.get("photo_url")
                 )
+                print(f"        -> Visuals Seen: \"{gemini_plan.get('visual_elements_seen', '')[:75]}...\"")
+                print(f"        -> Selected 3D Camera: {gemini_plan.get('best_3d_camera_motion', 'dolly_forward')}")
                 print(f"        -> Generated Hook: \"{gemini_plan['email_hook']}\"")
                 print(f"        -> Dynamic Badge: [{gemini_plan['badge_title']} | {gemini_plan['badge_subtitle']}]")
 
-                # 2. Generate Real AI Clip (Replicate or 3D Dolly Engine)
-                print("  [2/5] 🎬 Generating 5s 3D cinematic video clip...")
-                generate_3d_clip(lead["photo_url"], lead.get("scene_type", "pool terrace"), raw_mp4)
+                # 2. Generate Real AI Clip with Specific Camera Choreography
+                print(f"  [2/5] 🎬 Generating 5s 3D video walkthrough ({gemini_plan.get('best_3d_camera_motion')})...")
+                generate_3d_clip(
+                    image_url=lead["photo_url"],
+                    property_type=lead.get("scene_type", "pool terrace"),
+                    output_path=raw_mp4,
+                    camera_motion=gemini_plan.get("best_3d_camera_motion", "dolly_forward"),
+                    prompt=gemini_plan.get("cinematic_prompt")
+                )
 
                 # 3. Post-Process Video with Dynamic Badge Overlay
                 ambient_audio = "assets/ambient_breeze.mp3"

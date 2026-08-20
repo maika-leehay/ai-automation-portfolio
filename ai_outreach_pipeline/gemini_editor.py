@@ -1,5 +1,8 @@
 import os
 import json
+import requests
+from io import BytesIO
+from PIL import Image
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,27 +15,42 @@ def analyze_property_with_gemini(
     api_key: str = None
 ) -> dict:
     """
-    Uses Google Gemini (gemini-2.5-flash) to generate high-converting video overlays,
-    cinematic camera prompts, and hyper-personalized outreach email copy for the lead.
+    Uses Google Gemini Vision (gemini-3.6-flash) to visually inspect the host's main listing photo,
+    identify architecture & visual details, choose the optimal 3D camera choreography,
+    and write hyper-personalized outreach copy based on what Gemini actually sees.
     """
     gemini_key = api_key or os.getenv("GEMINI_API_KEY")
 
+    # Load PIL image for multimodal vision
+    pil_image = None
+    if image_url:
+        try:
+            if os.path.exists(image_url):
+                pil_image = Image.open(image_url).convert("RGB")
+            elif image_url.startswith("http"):
+                res = requests.get(image_url, timeout=12)
+                if res.status_code == 200:
+                    pil_image = Image.open(BytesIO(res.content)).convert("RGB")
+        except Exception as e:
+            print(f"  [Gemini Vision] Image load warning: {e}")
+
     prompt = f"""
-You are an expert AI Video Director & Real Estate Outreach Copywriter.
-Analyze the following property lead and return a structured JSON response:
-- Property Name: {property_name}
-- Property Type / Scene: {property_type}
-- Image URL: {image_url or "N/A"}
+You are an expert luxury real estate AI Video Director and High-Converting Outreach Copywriter.
+Visually inspect this property photo for '{property_name}' ({property_type}).
 
-Output JSON only with these exact keys:
-1. "cinematic_prompt": A 4K photorealistic camera dolly prompt for generative video AI (e.g. Kling / Veo) focusing on architectural lines, lighting, and smooth motion.
-2. "badge_title": Uppercase punchy title for lower-third overlay (max 4 words).
-3. "badge_subtitle": Feature highlight (e.g. 'Infinity Pool & Ocean Sunset • 4K HDR').
-4. "email_hook": A 1-sentence personalized opening hook complimenting the listing's visual appeal.
-5. "selling_points": A bullet point list of 3 high-impact features for the outreach pitch.
+Return a strict structured JSON response with:
+1. "visual_elements_seen": Detailed 1-sentence description of the exact architecture, pool, lighting, view, materials seen in the photo.
+2. "best_3d_camera_motion": Choose exactly one of: "crane_up", "dolly_forward", "orbital_pan", or "tilt_reveal".
+3. "cinematic_prompt": A 4K photorealistic Kling/Veo prompt executing this exact 3D camera motion across the scene geometry.
+4. "badge_title": Punchy uppercase lower-third title (max 4 words).
+5. "badge_subtitle": Feature highlight (e.g. 'Infinity Pool & Sunset Deck • 4K HDR').
+6. "email_hook": A 1-sentence personalized opening hook complimenting the unique visual details seen in this exact photo.
+7. "selling_points": A bullet-point list of 3 specific selling points visible in this property.
 
-JSON format:
+JSON Format:
 {{
+  "visual_elements_seen": "...",
+  "best_3d_camera_motion": "dolly_forward",
   "cinematic_prompt": "...",
   "badge_title": "...",
   "badge_subtitle": "...",
@@ -45,29 +63,33 @@ JSON format:
         try:
             from google import genai
             client = genai.Client(api_key=gemini_key)
+            contents = [pil_image, prompt] if pil_image else [prompt]
             response = client.models.generate_content(
                 model="gemini-3.6-flash",
-                contents=prompt,
+                contents=contents,
                 config={
                     "response_mime_type": "application/json"
                 }
             )
-            return json.loads(response.text)
+            data = json.loads(response.text)
+            if "best_3d_camera_motion" not in data:
+                data["best_3d_camera_motion"] = "dolly_forward"
+            return data
         except Exception as e:
-            print(f"[Gemini Director] Warning: Falling back to smart templates ({e})")
+            print(f"  [Gemini Vision Warning] Falling back to intelligent templates ({e})")
 
-    # Smart algorithmic fallback if GEMINI_API_KEY is not yet populated
+    # Smart fallback
     return {
-        "cinematic_prompt": (
-            f"Slow smooth cinematic dolly forward across the {property_type} toward the panoramic horizon, "
-            "subtle ambient water reflections, bright sunny daylight, stable architectural lines, 4k photorealistic"
-        ),
-        "badge_title": property_name.upper(),
-        "badge_subtitle": f"{property_type.title()} • 4K Photorealistic Walkthrough",
-        "email_hook": f"I came across your stunning listing for {property_name} and was blown away by the architectural presence of the {property_type}.",
+        "visual_elements_seen": f"Luxury architecture and panoramic scenery of {property_name}",
+        "best_3d_camera_motion": "dolly_forward",
+        "cinematic_prompt": f"Slow smooth cinematic dolly forward across the {property_type}, warm golden lighting, 4k",
+        "badge_title": property_name.upper()[:30],
+        "badge_subtitle": f"{property_type.title()} • 4K HDR Walkthrough",
+        "email_hook": f"I came across your stunning listing for {property_name} and was captivated by the visual presence of the {property_type}.",
         "selling_points": [
-            "5-second cinematic 3D dolly camera motion from static listing photos",
-            "Branded typography lower-third badge with ambient acoustic soundscape",
-            "Ready for Instagram Reels, TikTok, and direct VIP buyer messaging"
+            "5-second cinematic 3D walkthrough generated from listing photo",
+            "Custom glassmorphic lower-third badge with ambient soundscape",
+            "Ready for high-converting direct messaging and social reels"
         ]
     }
+

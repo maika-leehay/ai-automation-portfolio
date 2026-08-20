@@ -34,13 +34,18 @@ class TelegramReviewBot:
         interactive inline buttons: [Approve & Send], [Regenerate], [Skip].
         Returns message_id.
         """
+        camera_name = gemini_plan.get('best_3d_camera_motion', 'dolly_forward').replace('_', ' ').title()
+        visual_desc = gemini_plan.get('visual_elements_seen', '')
+        
         caption = (
             f"🎬 <b>AI 3D Video Review Required</b>\n\n"
             f"🏢 <b>Company:</b> {lead['company']}\n"
             f"🏡 <b>Property:</b> {lead['property_name']}\n"
             f"📧 <b>Recipient:</b> {lead['email']}\n"
+            f"🎥 <b>3D Motion:</b> <code>{camera_name}</code>\n"
             f"🏷 <b>Badge:</b> <code>{gemini_plan['badge_title']}</code>\n"
             f"✨ <b>Subtitle:</b> {gemini_plan['badge_subtitle']}\n\n"
+            f"👁 <b>Visuals Detected:</b>\n<i>\"{visual_desc[:140]}...\"</i>\n\n"
             f"💡 <b>Gemini Hook:</b>\n<i>\"{gemini_plan['email_hook']}\"</i>\n"
         )
         if drive_link:
