@@ -131,13 +131,20 @@ def compose_short_video(
 
     if bg_music_path and os.path.exists(bg_music_path):
         try:
-            bg_clip = AudioFileClip(bg_music_path).subclip(0, total_duration).volumex(0.12)
+            bg_clip = AudioFileClip(bg_music_path).subclip(0, total_duration)
+            if hasattr(bg_clip, "multiply_volume"):
+                bg_clip = bg_clip.multiply_volume(0.12)
+            elif hasattr(bg_clip, "volumex"):
+                bg_clip = bg_clip.volumex(0.12)
             audio_tracks.append(bg_clip)
         except Exception:
             pass
 
-    final_audio = CompositeAudioClip(audio_tracks)
-    final_video = video_clip.set_audio(final_audio)
+    final_audio = CompositeAudioClip(audio_tracks) if len(audio_tracks) > 1 else voice_clip
+    if hasattr(video_clip, "with_audio"):
+        final_video = video_clip.with_audio(final_audio)
+    else:
+        final_video = video_clip.set_audio(final_audio)
 
     final_video.write_videofile(output_video_path, codec="libx264", audio_codec="aac", fps=30, logger=None)
 

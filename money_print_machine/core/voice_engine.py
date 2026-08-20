@@ -20,20 +20,25 @@ def generate_voiceover(text: str, output_audio_path: str, voice: str = None) -> 
 
     async def _synthesize():
         communicate = edge_tts.Communicate(text, selected_voice)
-        sub_maker = edge_tts.SubMaker()
         with open(output_audio_path, "wb") as f:
             async for chunk in communicate.stream():
                 if chunk["type"] == "audio":
                     f.write(chunk["data"])
-                elif chunk["type"] == "WordBoundary":
-                    # Offset and duration in 100ns units -> seconds
-                    start_sec = chunk["offset"] / 10_000_000
-                    dur_sec = chunk["duration"] / 10_000_000
-                    words.append({
-                        "word": chunk["text"],
-                        "start": start_sec,
-                        "end": start_sec + dur_sec
-                    })
+                elif chunk["type"] == "SentenceBoundary":
+                    sentence_start = chunk["offset"] / 10_000_000
+                    sentence_dur = chunk["duration"] / 10_000_000
+                    words_in_sent = chunk["text"].split()
+                    total_chars = sum(len(w) for w in words_in_sent) or 1
+                    cur_t = sentence_start
+
+                    for w in words_in_sent:
+                        w_dur = (len(w) / total_chars) * sentence_dur
+                        words.append({
+                            "word": w,
+                            "start": round(cur_t, 3),
+                            "end": round(cur_t + w_dur, 3)
+                        })
+                        cur_t += w_dur
 
     asyncio.run(_synthesize())
 
